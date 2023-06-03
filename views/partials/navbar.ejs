@@ -1,0 +1,67 @@
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+
+<link rel="stylesheet" href="/stylesheet/navbar.css">
+
+
+
+<div class="container-fluid  mb-3 me-5">
+    <div class=" d-flex vw-100 align-items-center justify-content-center me-4 mb-5">
+        <img src="/images/coffee-logo.png" class=" imgfluid me-4" alt="" />
+
+        <header
+            class="main-head me-5 d-flex navbar-conts flex-wrap align-items-center justify-content-center justify-content-md-between py-1 mb-4 border-bottom rounded-pill">
+            <a href="/"
+                class="navbarlogo d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none w-auto">
+                <img src="/images/coffee-logo.png" class="rounded-circle" width="40" height="40" alt="" />
+            </a>
+
+            <ul class="nav col-12 ms-2 me-auto col-md-auto">
+                <li><a href="/" class="nav-link px-2 link-secondary navbar-links">Home</a></li>
+                <li><a href="/products" class="nav-link px-2 link-dark navbar-links">Menu</a></li>
+                <li><a href="#" class="nav-link px-2 link-dark navbar-links">Pricing</a></li>
+
+
+
+            </ul>
+            <% if(!currentUser) {%>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-start mb-md-0">
+                        <li><a href="/login" class="nav-link px-2 link-dark ms-2">Login</a></li>
+                        <li><a href="/login" class="nav-link px-2 link-dark ms-2">Register</a></li>
+                    </ul>
+                <% }else{ %>
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/images/junjo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+                        <p class="text-center">
+                            <%= currentUser.username %>
+                        </p>
+                        <li><a class="dropdown-item" href="/order/<%= order ? order._id : '' %>">Order</a></li>
+
+                        <% if(isAdmin){ %>
+                            <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                            <% } %>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                    </ul>
+                </div>
+                    <% } %>
+        </header>
+
+
+
+
+
+
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>

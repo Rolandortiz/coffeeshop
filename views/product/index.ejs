@@ -1,0 +1,412 @@
+<% layout('/layouts/boilerplate') %>
+    <link rel="stylesheet" href="/stylesheet/indexproduct.css">
+
+
+
+    <section class="mt-5">
+        <%- include('../partials/_cart') %>
+            <!-- main content -->
+            <div class="container mt-4">
+                <ul class="nav nav-tabs d-flex justify-content-center align-items-center mt-3" id="myTab"
+                    role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="hot-coffee-tab" data-bs-toggle="tab"
+                            data-bs-target="#hot-coffee" type="button" role="tab" aria-controls="hot-coffee"
+                            aria-selected="true">Hot
+                            Coffee</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="iced-coffee-tab" data-bs-toggle="tab" data-bs-target="#iced-coffee"
+                            type="button" role="tab" aria-controls="iced-coffee" aria-selected="false">Iced
+                            Coffee</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="frappe-tab" data-bs-toggle="tab" data-bs-target="#frappe"
+                            type="button" role="tab" aria-controls="frappe" aria-selected="false">Frappe</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="smoothie-tab" data-bs-toggle="tab" data-bs-target="#smoothie"
+                            type="button" role="tab" aria-controls="smoothie" aria-selected="false">Smoothie</button>
+                    </li>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pastries-tab" data-bs-toggle="tab" data-bs-target="#pastries"
+                            type="button" role="tab" aria-controls="pastries" aria-selected="false">Pastries</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="hot-coffee" role="tabpanel"
+                        aria-labelledby="hot-coffee-tab">
+                        <div class="container-fluid mt-5">
+                            <div class="row d-flex flex-wrap justify-content-center" id="product-list">
+                                <% for(let product of products){ %>
+                                    <% if(product.category.includes("Hot Coffee")){ %>
+                                        <div class="col-lg-3 mb-4">
+
+                                            <div class="card bg-transparent">
+                                                <div class="card2">
+                                                    <div class="content">
+
+                                                        <div class="back">
+                                                            <div class="back-content">
+
+                                                                <img src="<%= product.image %>"
+                                                                    class="img-fluid rounded thumbnail-image"
+                                                                    style="width: 100%;height: 300px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="front">
+
+                                                            <div class="img">
+                                                                <div class="circle">
+                                                                </div>
+                                                                <div class="circle" id="right">
+                                                                </div>
+                                                                <div class="circle" id="bottom">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="front-content">
+                                                                <small class="badge">
+                                                                    <%= product.category %>
+                                                                </small>
+                                                                <div class="description">
+                                                                    <div class="title">
+                                                                        <h5 class="prod-title">
+                                                                            <a href="/products/<%=product._id %>">
+                                                                                <%= product.title %>
+                                                                            </a>
+                                                                        </h5>
+
+                                                                        <div class="d-flex flex-column mb-2">
+                                                                            <span class="new-price">$<%= product.price
+                                                                                    %>
+                                                                            </span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="card-footer">
+                                                                        <%= product.description.length> 80 ?
+                                                                            product.description.slice(0, 80) +
+                                                                            "..." :
+                                                                            product.description %>
+                                                                            <form
+                                                                                action="/products/<%=product._id %>/cart"
+                                                                                method="POST"
+                                                                                class="add-cart text-center">
+                                                                                <button class="add-to-cart-button"
+                                                                                    data-product-id="<%= product._id %>">Add
+                                                                                    to
+                                                                                    Cart</button>
+                                                                            </form>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="iced-coffee" role="tabpanel" aria-labelledby="iced-coffee-tab">
+                        <div class="container-fluid mt-5">
+                            <div class="row d-flex flex-wrap justify-content-center" id="product-list">
+                                <% for(let product of products){ %>
+                                    <% if(product.category.includes("Iced Coffee")){ %>
+                                        <div class="col-lg-3 mb-4">
+
+                                            <div class="card">
+                                                <div class="card2">
+                                                    <div class="content">
+                                                        <div class="back">
+                                                            <div class="back-content">
+
+                                                                <img src="<%= product.image %>"
+                                                                    class="img-fluid rounded thumbnail-image"
+                                                                    style="width: 100%;height: 300px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="front">
+
+                                                            <div class="img">
+                                                                <div class="circle">
+                                                                </div>
+                                                                <div class="circle" id="right">
+                                                                </div>
+                                                                <div class="circle" id="bottom">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="front-content">
+                                                                <small class="badge">
+                                                                    <%= product.category %>
+                                                                </small>
+                                                                <div class="description">
+                                                                    <div class="title">
+                                                                        <h5 class="prod-title">
+                                                                            <a href="/products/<%=product._id %>">
+                                                                                <%= product.title %>
+                                                                            </a>
+                                                                        </h5>
+                                                                        <div class="d-flex flex-column mb-2">
+                                                                            <span class="new-price">$<%= product.price
+                                                                                    %>
+                                                                            </span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="card-footer">
+                                                                        <%= product.description.length> 80 ?
+                                                                            product.description.slice(0, 80) +
+                                                                            "..." :
+                                                                            product.description %>
+                                                                            <form
+                                                                                action="/products/<%=product._id %>/cart"
+                                                                                method="POST"
+                                                                                class="add-cart text-center">
+                                                                                <button class="add-to-cart-button"
+                                                                                    data-product-id="<%= product._id %>">Add
+                                                                                    to
+                                                                                    Cart</button>
+                                                                            </form>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="frappe" role="tabpanel" aria-labelledby="frappe-tab">
+                        <div class="container-fluid mt-5">
+                            <div class="row d-flex flex-wrap justify-content-center" id="product-list">
+                                <% for(let product of products){ %>
+                                    <% if(product.category.includes("frappe")){ %>
+                                        <div class="col-lg-3 mb-4">
+
+                                            <div class="card">
+                                                <div class="card2">
+                                                    <div class="content">
+                                                        <div class="back">
+                                                            <div class="back-content">
+
+                                                                <img src="<%= product.image %>"
+                                                                    class="img-fluid rounded thumbnail-image"
+                                                                    style="width: 100%;height: 300px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="front">
+
+                                                            <div class="img">
+                                                                <div class="circle">
+                                                                </div>
+                                                                <div class="circle" id="right">
+                                                                </div>
+                                                                <div class="circle" id="bottom">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="front-content">
+                                                                <small class="badge">
+                                                                    <%= product.category %>
+                                                                </small>
+                                                                <div class="description">
+                                                                    <div class="title">
+                                                                        <h5 class="prod-title">
+                                                                            <a href="/products/<%=product._id %>">
+                                                                                <%= product.title %>
+                                                                            </a>
+                                                                        </h5>
+                                                                        <div class="d-flex flex-column mb-2">
+                                                                            <span class="new-price">$<%= product.price
+                                                                                    %>
+                                                                            </span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="card-footer">
+                                                                        <%= product.description.length> 80 ?
+                                                                            product.description.slice(0, 80) +
+                                                                            "..." :
+                                                                            product.description %>
+                                                                            <form
+                                                                                action="/products/<%=product._id %>/cart"
+                                                                                method="POST"
+                                                                                class="add-cart text-center">
+                                                                                <button class="add-to-cart-button"
+                                                                                    data-product-id="<%= product._id %>">Add
+                                                                                    to
+                                                                                    Cart</button>
+                                                                            </form>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="smoothie" role="tabpanel" aria-labelledby="smoothie-tab">
+                        <div class="container-fluid mt-5">
+                            <div class="row d-flex flex-wrap justify-content-center" id="product-list">
+                                <% for(let product of products){ %>
+                                    <% if(product.category.includes("smoothie")){ %>
+                                        <div class="col-lg-3 mb-4">
+
+                                            <div class="card">
+                                                <div class="card2">
+                                                    <div class="content">
+                                                        <div class="back">
+                                                            <div class="back-content">
+
+                                                                <img src="<%= product.image %>"
+                                                                    class="img-fluid rounded thumbnail-image"
+                                                                    style="width: 100%;height: 300px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="front">
+
+                                                            <div class="img">
+                                                                <div class="circle">
+                                                                </div>
+                                                                <div class="circle" id="right">
+                                                                </div>
+                                                                <div class="circle" id="bottom">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="front-content">
+                                                                <small class="badge">
+                                                                    <%= product.category %>
+                                                                </small>
+                                                                <div class="description">
+                                                                    <div class="title">
+                                                                        <h5 class="prod-title">
+                                                                            <a href="/products/<%=product._id %>">
+                                                                                <%= product.title %>
+                                                                            </a>
+                                                                        </h5>
+                                                                        <div class="d-flex flex-column mb-2">
+                                                                            <span class="new-price">$<%= product.price
+                                                                                    %>
+                                                                            </span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="card-footer">
+                                                                        <%= product.description.length> 80 ?
+                                                                            product.description.slice(0, 80) +
+                                                                            "..." :
+                                                                            product.description %>
+                                                                            <form
+                                                                                action="/products/<%=product._id %>/cart"
+                                                                                method="POST"
+                                                                                class="add-cart text-center">
+                                                                                <button class="add-to-cart-button"
+                                                                                    data-product-id="<%= product._id %>">Add
+                                                                                    to
+                                                                                    Cart</button>
+                                                                            </form>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="pastries" role="tabpanel" aria-labelledby="pastries-tab">
+                        <div class="container-fluid mt-5">
+                            <div class="row d-flex flex-wrap justify-content-center" id="product-list">
+                                <% for(let product of products){ %>
+                                    <% if(product.category.includes("Pastries")){ %>
+                                        <div class="col-lg-3 mb-4">
+                                            <div class="card">
+                                                <div class="card2">
+                                                    <div class="content">
+                                                        <div class="back">
+                                                            <div class="back-content">
+                                                                <img src="<%= product.image %>"
+                                                                    class="img-fluid rounded thumbnail-image"
+                                                                    style="width: 100%;height: 300px;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="front">
+                                                            <div class="img">
+                                                                <div class="circle"></div>
+                                                                <div class="circle" id="right"></div>
+                                                                <div class="circle" id="bottom"></div>
+                                                            </div>
+                                                            <div class="front-content">
+                                                                <small class="badge">
+                                                                    <%= product.category %>
+                                                                </small>
+                                                                <div class="description">
+                                                                    <div class="title">
+                                                                        <h5 class="prod-title">
+                                                                            <a href="/products/<%=product._id %>">
+                                                                                <%= product.title %>
+                                                                            </a>
+                                                                        </h5>
+                                                                        <div class="d-flex flex-column mb-2">
+                                                                            <span class="new-price">$<%= product.price
+                                                                                    %></span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="card-footer">
+                                                                        <%= product.description.length> 80 ?
+                                                                            product.description.slice(0, 80) + "..." :
+                                                                            product.description %>
+                                                                    </p>
+                                                                    <form action="/products/<%=product._id %>/cart"
+                                                                        method="POST" class="add-cart text-center">
+                                                                        <button class="add-to-cart-button"
+                                                                            data-product-id="<%= product._id %>">Add to
+                                                                            Cart</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+
+    </section>

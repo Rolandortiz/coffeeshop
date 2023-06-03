@@ -1,0 +1,91 @@
+.navbar-conts {
+
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    opacity: 0;
+
+}
+
+.imgfluid {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    top: 1%;
+    margin-left: -20px;
+}
+
+
+
+
+
+.main-head {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+
+}
+
+.nav li a {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.nav li a:hover {
+    color: #6F4E37;
+    margin-top: -10px;
+    text-shadow:
+        white 0.003em 0.003em 0.004em,
+        #9c9c9c 1px 1px 1px,
+        #9c9c9c 1px 2px 1px,
+        #9c9c9c 1px 9px 1px,
+        #9c9c9c 1px 10px 1px,
+        #9c9c9c 1px 11px 1px,
+        #9c9c9c 1px 12px 1px,
+        rgba(16, 16, 16, 0.4) 1px 38px 26px,
+        rgba(16, 16, 16, 0.2) 1px 42px 30px,
+        rgba(16, 16, 16, 0.2) 1px 46px 65px,
+        rgba(16, 16, 16, 0.4) 1px 50px 95px,
+        white -0.15em -0.1em 100px;
+}
+
+
+
+.navbar-conts:hover {
+    padding-left: 40PX;
+    padding-right: 40PX;
+    animation-name: navbar-conts-hover;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    opacity: 1;
+
+}
+
+@keyframes navbar-conts-hover {
+    0% {
+        width: 25%;
+        background: #f0f0f0;
+        box-shadow: 0 0 0 #cccccc, 0 0 0 #ffffff, 10px 10px 10px #cccccc inset, -10px -10px 10px #ffffff inset
+    }
+
+    25% {
+        width: 50%;
+        background: #f8f8f8;
+        box-shadow: 10px 10px 10px #cccccc, 10px 10px 10px #ffffff, 0 0 0 #cccccc inset, 0 0 0 #ffffff inset
+    }
+
+    50% {
+        width: 75%;
+        background: #f8f8f8;
+        box-shadow: 10px 10px 10px #cccccc, 10px 10px 10px #ffffff, 0 0 0 #cccccc inset, 0 0 0 #ffffff inset
+    }
+
+    100% {
+
+        width: 100%;
+        background: #fafafa;
+        box-shadow: 40px 40px 40px #cccccc, 0 0 0 #ffffff, 0 0 0 #cccccc inset, 2px 2px 2px #ffffff inset
+    }
+
+}

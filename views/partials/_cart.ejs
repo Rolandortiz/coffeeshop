@@ -1,0 +1,100 @@
+    <script src="https://kit.fontawesome.com/00e4d50ddc.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/c64e1cbe4a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheet/cart.css">
+    <% if (currentUser && cart) { %>
+        <div id="wrapper" class="wrapper d-flex align-items-strech  mb-2">
+            <nav id="sidebar" class="sidebar">
+                <div class="custom-menu">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-cart-shopping icon"></i>
+                        <span class="sr-only">Menu</span>
+
+                    </button>
+
+                    <% if (cartProducts.length===0) { %>
+                        <span class="notif"></span>
+                        <% } else { %>
+                            <span class="notif">
+                                <%= cartProducts.length %>
+                            </span>
+                            <% } %>
+
+                </div>
+                <div class="cart-container p-4" id="sidebarContent">
+
+                    <h1>
+                        <%= currentUser.username %>'s Cart
+                    </h1>
+                    <div class="product row mb-4 d-flex justify-content-between align-items-center mt-3 mb-3">
+                        <% if (cartProducts.length===0) { %>
+                            <p class="cart-empty text-center d-flex justify-content-center align-items-center">Your cart is
+                                empty.
+                            </p>
+                            <p id="subTotal" class="sub-total">Total Price: $<%= totalPrice.toFixed(2) %>
+                            </p>
+                            <% } else { %>
+
+                                <% cartProducts.forEach((product)=> { %>
+                                    <div class="cart-products row mb-4 d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="<%= product.image%>" class="img-fluid rounded-3" alt="">
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3 title">
+                                            <p class="text-muted">
+                                                <%= product.category %>
+                                            </p>
+                                            <p class="text-black mb-0">
+                                                <%= product.title %>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 col-lg-3 col-xl-2 d-flex">
+                                            <form class="update-cart-form" data-product-id="<%= product.product._id %>">
+                                    <button class="btn btn-link px-2 decrement-button">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="hidden" name="originalQuantity" value="<%= product.quantity %>">
+                                    <input class="update-quantity form-control form-control-sm" min="1" name="quantity" value="<%= product.quantity %>" type="number"/>
+                                    <button class="btn btn-link px-2 increment-button">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    </form>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <p class="price mb-0">
+                                                $<%= product.price.toFixed(2) %>
+                                            </p>
+                                        </div>
+
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end me-3 del">
+                                           <form class="delete-form" data-product-id="<%= product.product._id %>">
+   <button class="delete-product" type="submit"><i class="fas fa-times"></i></button>
+</form>
+                                        </div>
+                                        <p class="total-product">Product Total Price: $<%=
+                                                product.productTotalPrice.toFixed(2) %>
+                                        </p>
+                                    </div>
+                                    <hr class="border my-4">
+
+
+                                    <% }); %>
+                    </div>
+                    <p id="subTotal" class="sub-total">Total Price: $<%= totalPrice.toFixed(2) %>
+                    </p>
+                    <% } %>
+                        <form action="/order" method="POST">
+                            <button class="d-flex justify-content-center align-items-center text-center btn btn-secondary">
+                                CHECK OUT
+                            </button>
+                        </form>
+
+
+                </div>
+
+            </nav>
+            <% } %>
+
+
+
+                <script src="/javascript/products.js"></script>

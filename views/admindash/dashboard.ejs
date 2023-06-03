@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowies Cafe</title>
+    <link rel="stylesheet" href="stylesheet/user-dash.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .monthly-sales {
+            width: 70%;
+            height: 65%;
+            margin-top: 5rem;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+        .sales-container {
+            width: 18%;
+            height: 337px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+        .sales-container h2 {
+            font-size: 40px;
+        }
+
+        .sales-container small {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .pie-chart {
+            width: 18%;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+.active{
+
+width: 10px;
+height: 10px;
+margin-right: 10px;
+display:inline-block;
+border-radius: 50%;
+background-color: green;
+}
+.notActive{
+
+width: 10px;
+height: 10px;
+margin-right: 10px;
+display:inline-block;
+border-radius: 50%;
+background-color: rgb(141, 141, 141);
+}
+    </style>
+</head>
+
+<body>
+    <%- include('../partials/sidebar') %>
+
+        <div class="container-md dash-content">
+            <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
+
+            <div class="row">
+                <div class="col-sm-3 card sales-container">
+                    <h2>
+                        $<%= totalSale.toFixed(2) %>
+                    </h2>
+                    <small>Total Sales</small>
+                </div>
+
+
+                <div class="card ms-4 col-md-6 monthly-sales">
+                    <div class="card-body">
+                        <div class="">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+<div class="card mt-3 col-md-3 pie-chart  d-flex justify-content-center align-items-center">
+                <div class="card-body">
+                    <h5 class="card-title">Best Seller Product</h5>
+                    <canvas id="bestSellerChart"></canvas>
+
+                </div>
+            </div>
+<div class="card mt-3 ms-4 col-md-3">
+     <h5 class="card-title mt-3">Active Users</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% usersWithPercentage.sort((a, b) => b.percentage - a.percentage).forEach(user => { %>
+                <% if (user.percentage >= 20) { %>
+                    <tr>
+<% if (user.user.isLoggedIn) { %>
+  <td><span class="active"></span><%= user.user.username %></td>
+  <td><%= user.percentage.toFixed(2) %>%</td>
+<% } else { %>
+  <td><span class="notActive"></span><%= user.user.username %></td>
+  <td><%= user.percentage.toFixed(2) %>%</td>
+<% } %>
+                    </tr>
+                <% } %>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+
+            </div>
+</div>
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const monthlyData = <%- JSON.stringify(monthlyData) %>;
+                const bestSellerProducts = <%- JSON.stringify(bestSellerProducts) %>;
+
+                // Create the chart
+                const ctx = document.getElementById('monthlyChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        datasets: [{
+                            label: 'Monthly Sales',
+                            data: monthlyData,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0 // Display integer values for the y-axis ticks
+                                }
+                            }
+                        },
+   animations: {
+      radius: {
+        duration: 400,
+        easing: 'linear',
+        loop: (context) => context.active
+      }
+    },
+    hoverRadius: 12,
+    hoverBackgroundColor: 'yellow',
+    interaction: {
+      mode: 'nearest',
+      intersect: false,
+      axis: 'x'
+    },
+    plugins: {
+      tooltip: {
+        enabled: false
+      }
+    }
+                    }
+                });
+
+                const bestSellerCtx = document.getElementById('bestSellerChart').getContext('2d');
+let delayed;
+                new Chart(bestSellerCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: bestSellerProducts.map(product => product.product.title),
+                        datasets: [{
+                            data: bestSellerProducts.map(product => product.sales),
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)',
+                                'rgba(255, 159, 64, 0.7)',
+                                'rgba(233, 30, 99, 0.7)',
+                                'rgba(16, 150, 24, 0.7)',
+                                'rgba(140, 35, 183, 0.7)',
+                                'rgba(46, 125, 50, 0.7)'
+                            ],
+                            borderColor: 'rgba(255, 255, 255, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false,
+ animation: {
+      onComplete: () => {
+        delayed = true;
+      },
+      delay: (context) => {
+        let delay = 0;
+        if (context.type === 'data' && context.mode === 'default' && !delayed) {
+          delay = context.dataIndex * 300 + context.datasetIndex * 100;
+        }
+        return delay;
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true
+      }
+    }
+                    }
+                });
+            });
+
+
+
+        </script>
+</body>
+
+</html>

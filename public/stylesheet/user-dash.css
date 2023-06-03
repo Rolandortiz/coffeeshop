@@ -1,0 +1,15 @@
+* {
+    padding: 0;
+    border: 0;
+}
+
+.dash-content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: 10%;
+
+}
+.no-bullets {
+  list-style-type: none;
+}
