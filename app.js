@@ -47,21 +47,7 @@ db.once("open", () => {
     console.log("Database Connected");
 })
 
-//session
-// const sessionConfig = {
-//     secret: "secretla",
-//     name: '_pmCafe',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//         httpOnly: true,
-//         // secure:true,
-//         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-//         maxAge: 1000 * 60 * 60 * 24 * 7
-//     }
-// }
 
-// app.uses
 app.use(mongoSanitize());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
