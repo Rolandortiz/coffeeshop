@@ -1,0 +1,47 @@
+<% layout('/layouts/boilerplate') %>
+    <link rel="stylesheet" href="stylesheet/home.css">
+
+
+
+
+    <div class="container">
+
+        <%- include('./partials/_cart') %>
+            <div class="container-fluid mt-5" id="particles-js">
+                <div class="background-container">
+                    <div class="coffee-beans"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans2"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans3"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans4"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans5"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans6"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans7"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans8"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans9"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans10"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans11"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-beans12"><img src="images/1.png" alt=""></div>
+                    <div class="coffee-materials"><img src="images/2.png" alt=""></div>
+
+                </div>
+                <div class="home-btn">
+                    <button class="btn1">
+                        <span class="spn"></span>
+                        <span class="spn"></span>
+                        <span class="spn"></span>
+                        <span class="spn"></span> <a href="/products"> Coffee?</a>
+                        <small>you can drag me anywhere</small>
+                    </button>
+
+                </div>
+            </div>
+    </div>
+
+
+    <script src="javascript/particles.js"></script>
+    <script src="javascript/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/Draggable.min.js"></script>
+    <script>
+        Draggable.create(".btn1", { bounds: "body" });
+    </script>

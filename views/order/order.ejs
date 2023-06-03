@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<link rel="icon" href="data:,">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="/stylesheet/order.css">
+<script src="https://www.paypal.com/sdk/js?client-id=ARWl3thZ7jIojKvDMT_abu_PK9gLQUKIsZtPOS30BH6pnrPE5eRonnxECNSgcFFDPLreS4UoX7rflFYI"></script>
+
+</head>
+
+<body>
+
+    <% if(currentUser && order){ %>
+        <section class="h-100 gradient-custom container">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-10 col-xl-8">
+                        <div class="card" style="border-radius: 10px;">
+                            <div class="card-header px-4 py-5">
+                                <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #6F4E37;"></span>
+                                    <%= currentUser.username %>
+                                        </span>!
+                                </h5>
+                            </div>
+                            <div id="content" class="card-body p-4 hide">
+<div id="alerts" class="ms-text-center"></div>
+          <div id="loading" class="spinner-container ms-div-center">
+            <div class="spinner"></div>
+          </div>
+                                <% if(orderProducts.length===0){ %>
+                                    <p class="text-center d-flex justify-content-center align-items-center">
+                                        You
+                                        didn't choose any poducts yet
+                                    </p>
+                                    <% }else{ %>
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <p class="lead fw-normal mb-0" style="color: #6F4E37;">Receipt</p>
+
+                                        </div>
+
+                                        <div class="card shadow-0 border mb-4">
+                                            <div class="card-body">
+
+
+                                                <% orderProducts.forEach((product)=> { %>
+                                                    <div class="row mt-2">
+
+                                                        <div class="col-md-2">
+                                                            <img src=" <%= product.image %>" class="img-fluid"
+                                                                alt="Phone">
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0">
+                                                                <%= product.title %>
+                                                            </p>
+                                                        </div>
+
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">
+                                                                <%= product.category %>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">
+                                                                <%= product.quantity %>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">
+                                                                <%= product.price %>
+                                                            </p>
+                                                        </div>
+                                                        <div
+                                                            class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                            <p class="text-muted mb-0 small">
+                                                                <%= product.productTotalPrice.toFixed(2) %>
+                                                            </p>
+                                                        </div>
+
+                                                    </div>
+                                                    <% }) %>
+                                                        <% } %>
+                                                            <hr class="mb-4"
+                                                                style="background-color: #6F4E37; opacity: 1;">
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="d-flex justify-content-between pt-2">
+                                            <p class="fw-bold mb-0">Order Details</p>
+
+                                        </div>
+
+                                        <div class="d-flex justify-content-between pt-2">
+                                            <p class="text-muted mb-0">Invoice Number : <%= order.receipt %>
+                                            </p>
+
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p class="text-muted mb-0">Invoice Date : <%=
+                                                    order.createdAt.toLocaleDateString() %>
+                                            </p>
+
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p class=" mb-0">
+                                                <span class="fw-bold">Sub-Total</span>
+                                            </p>
+<p class="text-muted mb-0">
+                                                <div class="ms-auto" id="total_price" style="font-size: 25px; font-weight: bold;">$<%= totalPrice.toFixed(2) %></div>
+                                            </p>
+                                        </div>
+
+
+                            </div>
+                            <div class="card-footer d-flex justify-content-center align-content-center border-0 px-4 py-5"
+                                style="background-color: #ffdfc8; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+
+<!-- <div class="d-flex justify-content-center align-content-center"> -->
+<div class="row d-flex justify-content-center align-content-center">
+                                <button id="checkout-button" data-product-id="<%= order._id %>"
+                                    class="button2 col-md-3 w-50">Google Pay</button>
+
+
+<div class=" col-md-3 w-50" id="payment_options" data-product-id="<%= order._id %>"></div>
+
+<button class="button2 w-50"><a href="/products">BACK</a></button>
+
+</div>
+<!-- </div> -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Button trigger modal -->
+
+        </section>
+
+
+
+
+        <% } %>
+
+<script>
+
+
+</script>
+
+            <script src="/javascript/order.js"></script>
+
+            <!-- Modal -->
+
+
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+</body>
+
+</html>

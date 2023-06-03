@@ -1,0 +1,183 @@
+button {
+    -webkit-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+}
+
+button:hover,
+button:focus {
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+
+
+.del button {
+    color: white;
+    border: none;
+    background: none;
+}
+
+.img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    z-index: 999;
+}
+
+
+.Sidebar {
+    /* min-width: 270px;
+    max-width: 400px;
+    border-radius: 10px;
+    background: #000000f7;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    position: relative; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    margin-left: -400px;
+    background-color: #000000;
+    z-index: 9999;
+    color: #fff;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+
+
+.Sidebar.active {
+    margin-left: 0;
+}
+
+
+
+.Sidebar h1 {
+    text-align: center;
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+}
+
+.Sidebar .title {
+    display: block;
+    flex-direction: row;
+    line-height: 14px;
+}
+
+.Sidebar .title p {
+    font-size: 15px;
+}
+
+
+@media (max-width: 991.98px) {
+    .Sidebar {
+        margin-left: -270px;
+    }
+
+    .Sidebar.active {
+        margin-left: 0;
+    }
+}
+
+.Sidebar .custom-menu {
+    display: inline-block;
+    position: absolute;
+    top: 15px;
+    right: -25px;
+
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .Sidebar .custom-menu {
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+}
+
+.Sidebar .custom-menu .btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.Sidebar .custom-menu .btn i {
+    margin-right: -40px;
+    font-size: 14px;
+}
+
+.Sidebar .custom-menu .btn.btn-primary {
+    background: transparent;
+    border-color: transparent;
+}
+
+.Sidebar .custom-menu .btn.btn-primary:after {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    background: #000000e9;
+    border-radius: 10px;
+}
+
+.Sidebar .custom-menu .btn.btn-primary:hover,
+.Sidebar .custom-menu .btn.btn-primary:focus {
+    background: transparent !important;
+    border-color: transparent !important;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+
+
+@media (max-width: 991.98px) {
+    .SidebarCollapse span {
+        display: none;
+    }
+}
+
+#content {
+    width: 100%;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.btn.btn-primary {
+    background: #0000005a;
+    border-color: #0000005a;
+}
+
+/* .btn.btn-primary:hover,
+.btn.btn-primary:focus {
+    background: #0000005a !important;
+    border-color: #0000005a !important;
+} */

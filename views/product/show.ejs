@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<link rel="icon" href="data:,">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/00e4d50ddc.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheet/show.css">
+    <script src="https://kit.fontawesome.com/00e4d50ddc.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/c64e1cbe4a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheet/cart.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <%- include('../partials/_cart') %>
+
+        <div class="container-fluid">
+            <div class="row p-5">
+                <div class="col">
+                    <div class="card mb-3  bg-transparent">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <img src=" <%= product.image %>" class="p-2 image-fluid card-img-top" alt="..."
+                                style="width: 650px; height: 400px; text-align: center;">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= product.title %>
+                            </h5>
+                            <p class="card-text">
+                                <%= product.description %>
+                            </p>
+                            <p class="card-price">
+                                $<%= product.price %>
+                            </p>
+                        </div>
+                        <div class="d-flex flex-row mb-3 buttons">
+                            <% if(isAdmin){ %>
+                                <form class="d-inline" action="/<%=product._id%>?_method=DELETE" method="post">
+                                    <button class="button">DELETE</button>
+                                </form>
+                                <% } %>
+                                    <button class="button"><a href="/products">BACK</a></button>
+                                    <form action="/products/<%=product._id %>/cart" method="POST"
+                                        class="add-cart text-center">
+                                        <button class="add-to-cart-button button"
+                                            data-product-id="<%= product._id %>">Add to Cart</button>
+                                    </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+</body>
+
+</html>

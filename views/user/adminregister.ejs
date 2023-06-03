@@ -1,0 +1,68 @@
+<% layout('/layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheet/navbar.css">
+    <section class="h-100 h-custom" style="background-color: #0b60fe49;">
+
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-8 col-xl-6">
+                        <div class="card rounded-3">
+                            <img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8Y29mZmVlJTIwc2hvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                                class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                                alt="Sample photo">
+                            <div class="card-body p-4 p-md-5">
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">New Admin</h3>
+
+                                <form action="/adminregister" method="POST" class="px-md-2">
+
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="username" class="form-control" name="username" />
+                                        <label class="form-label" for="username">Username</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="fullname" class="form-control" name="fullname" />
+                                        <label class="form-label" for="fullname">Full Name</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="number" id="number" class="form-control" name="number" />
+                                        <label class="form-label" for="number">Phone number</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="address" class="form-control" name="address" />
+                                        <label class="form-label" for="address">Address</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="text" id="email" class="form-control" name="email" />
+                                        <label class="form-label" for="email">Email</label>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="password" id="password" class="form-control" name="password" />
+                                        <label class="form-label" for="password">Password</label>
+                                    </div>
+
+                                    <div class="mb-4">
+
+                                        <select name="isAdmin" class="select">
+                                            <label class="form-label" for="isAdmin">Admin</label>
+                                            <option value="1" disabled>Admin?</option>
+                                            <option value="true">True</option>
+
+                                        </select>
+
+                                    </div>
+
+
+                                    <button class="btn btn-success btn-lg mb-1">Submit</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+<script src="/javascript/products.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>

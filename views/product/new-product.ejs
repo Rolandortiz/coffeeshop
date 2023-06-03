@@ -1,0 +1,41 @@
+<% layout('/layouts/boilerplate') %>
+    <div class="container-fluid mt-5">
+        <div class="row" style="display:flex; flex-wrap: wrap;">
+            <form action="/products" method="POST">
+
+                <div class="col-3 mb-3">
+                    <label for="title">Product Name</label>
+                    <input type="text" name="product[title]" id="">
+                </div>
+                <div class="col-3 mb-3">
+                    <label for=""></label>
+                    <textarea name="product[description]" id="description" cols="30" rows="10"></textarea>
+                </div>
+                <div class="col-3 mb-3">
+                    <label for="Image">Image</label>
+                    <input type="text" name="product[image]" id="">
+                </div>
+                <div class="col-3 mb-3">
+                    <label for="category"></label>
+                    <select name="product[category]" id="">
+                        <option value="Hot Coffee">Hot-coffee</option>
+                        <option value="Iced Coffee">Iced-coffee</option>
+                        <option value="frappe">Frappe</option>
+                        <option value="smoothie">Smoothie</option>
+                        <option value="Pastries">Pastries</option>
+                    </select>
+                </div>
+                <div class="col-3 mb-3">
+                    <label for="price">Price</label>
+                    <input type="number" name="product[price]" id="">
+                </div>
+                <div class="col-3 mb-3">
+                    <label for="size">Size</label>
+                    <input type="text" name="product[size]" id="">
+                </div>
+
+                <button class="btn btn-secondary">Submit</button>
+
+            </form>
+        </div>
+    </div>

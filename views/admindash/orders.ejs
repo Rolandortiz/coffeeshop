@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowies Cafe</title>
+    <link rel="stylesheet" href="stylesheet/user-dash.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <%- include('../partials/sidebar') %>
+
+    <div class="container-md dash-content">
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Orders</h1>
+
+        <!-- DataTales Example -->
+        <div class="card shadow me-5 mb-4">
+            <div class="card-header py-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Orders</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Products</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Receipt #</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for(let order of orders){ %>
+                            <tr>
+                                <td scope="row"><%= order.userID.fullname %></td>
+                                <td>
+                                    <ul>
+                                        <% for(let products of order.products) {%>
+                                        <li><%= products.product.title %></li>
+                                        <% } %>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="no-bullets">
+                                        <% for(let products of order.products) {%>
+                                        <li><%= products.quantity %></li>
+                                        <% } %>
+                                    </ul>
+                                </td>
+                                <td>$<%= order.amount %></td>
+                                <td><%= order.address %></td>
+                                <td>
+                                    <select class="form-select form-select-sm order-status" aria-label=".form-select-sm example" data-order-id="<%= order._id %>">
+                                        <option <%= order.status === 'Pending' ? 'selected' : '' %> value="Pending">Pending</option>
+                                        <option <%= order.status === 'Delivering' ? 'selected' : '' %> value="Delivering">Delivering</option>
+                                        <option <%= order.status === 'Delivered' ? 'selected' : '' %> value="Delivered">Delivered</option>
+                                    </select>
+                                </td>
+                                <td><%= order.receipt %></td>
+                                <td><%= order.updatedAt.toLocaleDateString()%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+            <div class="copyright text-center text-muted my-auto">
+                <span>Copyright &copy; Paule Med Cafe 2023</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('.order-status').change(function() {
+                var orderId = $(this).data('order-id');
+                var status = $(this).val();
+
+                $.ajax({
+                    url: '/order/' + orderId + '/update',
+                    type: 'PUT',
+                    data: { status: status },
+                    success: function(response) {
+                        console.log('Order status updated successfully');
+                    },
+                    error: function(error) {
+                        console.log('Error updating order status');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

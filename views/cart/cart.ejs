@@ -1,0 +1,86 @@
+<% layout('/layouts/boilerplate') %>
+    <!-- sidebar trial -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900">
+    <script src="https://kit.fontawesome.com/c64e1cbe4a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="stylesheet/indexproduct.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+    <!-- sidebar trial content -->
+    <div class="container">
+        <div class="wrapper d-flex align-items-stretch mb-2">
+            <nav id="sidebar">
+                <div class="custom-menu">
+                    <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fa fa-cart-shopping"></i>
+                        <span class="sr-only">Menu</span>
+                    </button>
+                </div>
+                <div class="p-4">
+
+                    <h1>Cart</h1>
+                    <% if (cartProducts.length===0) { %>
+                        <p class="text-center d-flex justify-content-center align-items-center">Your cart is empty.
+                        </p>
+                        <% } else { %>
+
+                            <% cartProducts.forEach((product)=> { %>
+                                <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="<%= product.image%>" class="img-fluid rounded-3" alt="">
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-3 title">
+                                        <p class="text-muted">
+                                            <%= product.category %>
+                                        </p>
+                                        <p class="text-black mb-0">
+                                            <%= product.title %>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 col-xl-2 d-flex">
+                                        <form action="/cart/<%= product.product %>/update" method="POST">
+                                            <button class="btn btn-link px-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="hidden" name="originalQuantity"
+                                                value="<%= product.quantity %>">
+                                            <input id="update-quantity" min="1" name="quantity"
+                                                value="<%= product.quantity %>" type="number"
+                                                class="form-control form-control-sm" />
+
+                                            <button class="btn btn-link px-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <p class="mb-0">
+                                            $<%= product.price %>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-md-1 col-lg-1 col-xl-1 text-end me-3 del">
+                                        <form action="/cart/<%= product.product %>/delete" method="POST">
+                                            <button type="submit"><i class="fas fa-times"></i></button>
+                                        </form>
+                                    </div>
+                                    <p>Product Total Price: $<%= product.productTotalPrice %>
+                                    </p>
+                                </div>
+                                <hr class="my-4">
+
+
+                                <% }); %>
+                                    <p>Total Price: $<%= totalPrice %>
+                                    </p>
+                                    <% } %>
+
+
+                </div>
+            </nav>
+        </div>
+        <script src="javascript/products.js"></script>
