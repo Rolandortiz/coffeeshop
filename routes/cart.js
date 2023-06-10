@@ -27,7 +27,7 @@ router.post('/products/:id/cart', isLoggedIn, createCart, async (req, res) => {
         productTotalPrice: 1 * product.price,
         category: product.category[0],
         price: product.price,
-        image: product.image
+        images: product.images
 
     });
 

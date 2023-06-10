@@ -52,11 +52,17 @@
 
                                                 <% orderProducts.forEach((product)=> { %>
                                                     <div class="row mt-2">
-
+<% if (product.images && product.images.length) { %>
                                                         <div class="col-md-2">
-                                                            <img src=" <%= product.image %>" class="img-fluid"
-                                                                alt="Phone">
+                                                            <img src=" <%= product.images[0].url %>" class="img-fluid"
+                                                                >
                                                         </div>
+<% }else{ %>
+<div class="col-md-2">
+                                                            <img src="https://images.unsplash.com/photo-1547583881-58685cb3210f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aG90JTIwY29mZmVlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" class="img-fluid"
+                                                                >
+                                                        </div>
+<% } %>
                                                         <div
                                                             class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                             <p class="text-muted mb-0">

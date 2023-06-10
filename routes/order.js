@@ -27,7 +27,7 @@ router.post('/order',isLoggedIn,  catchAsync(async (req, res) => {
                 title: item.product.title,
                 price: item.product.price,
                 category: item.product.category,
-                image: item.product.image,
+                images: item.product.images,
                 productTotalPrice,
 
             };
@@ -61,7 +61,15 @@ router.post('/order',isLoggedIn,  catchAsync(async (req, res) => {
 router.get('/order/:id',isLoggedIn, catchAsync(async (req, res) => {
     try {
 
-        const order = await Order.findById(req.params.id).populate('products.product');
+        const order = await Order.findById(req.params.id).populate({
+    path: 'products.product',
+    populate: {
+      path: 'images',
+    }
+});
+
+
+
         const orderProducts = order.products.map((item) => {
             const product = item.product;
             const productTotalPrice = item.quantity * product.price;
@@ -71,12 +79,12 @@ router.get('/order/:id',isLoggedIn, catchAsync(async (req, res) => {
                 title: product.title,
                 price: product.price,
                 category: product.category,
-                image: product.image,
+                images: product.images,
                 productTotalPrice,
 
             };
         });
-
+console.log('87', orderProducts)
 
         const totalPrice = orderProducts.reduce((total, product) => total + product.productTotalPrice, 0);
 
@@ -91,7 +99,12 @@ router.get('/order/:id',isLoggedIn, catchAsync(async (req, res) => {
 
 router.get('/orders', isLoggedIn,(async (req, res) => {
   try {
-    const orders = await Order.find({}).populate('products.product').populate("userID", 'fullname');;
+    const orders = await Order.find({}).populate({
+    path: 'products.product',
+    populate: {
+      path: 'images',
+    },
+  }).populate("userID", 'fullname');;
 
     const orderProducts = orders.flatMap((order) =>
       order.products.map((item) => {
@@ -103,7 +116,7 @@ router.get('/orders', isLoggedIn,(async (req, res) => {
           title: product.title,
           price: product.price,
           category: product.category,
-          image: product.image,
+           images: product.images,
           productTotalPrice,
         };
       })
@@ -148,7 +161,26 @@ router.delete('/:id',isLoggedIn, isAdmin, catchAsync(async (req, res) => {
 
 
 
+// updating the order in the dash-board
+router.post('/save-schedule', (req, res) => {
+  const { scheduleId, isChecked } = req.body;
 
+  const updatedIsChecked = isChecked === 'true';
+
+  Schedule.findByIdAndUpdate(
+    scheduleId,
+    { isChecked: updatedIsChecked },
+    { new: true },
+    (err, updatedSchedule) => {
+      if (err) {
+        console.error(err);
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    }
+  );
+});
 
 
 

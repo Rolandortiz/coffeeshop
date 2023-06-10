@@ -7,41 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shadowies Cafe</title>
     <link rel="stylesheet" href="stylesheet/user-dash.css">
-<style>
-.dropdown{
-list-style: none;
-}
-.dropdown,
-.dropdown a,
-.dropdown form button {
-  color: saddlebrown;
+    <link rel="stylesheet" href="stylesheet/products.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,300&display=swap" rel="stylesheet">
 
-}
-
-.dropdown a:hover,
-.dropdown form button:hover {
-  color: coral;
-}
-
-.dropdown .dropdown-toggle {
-  color: saddlebrown;
-}
-
-.dropdown .dropdown-toggle:hover,
-.dropdown .dropdown-toggle:focus {
-  color: coral;
-}
-
-.dropdown.open .dropdown-toggle {
-  color: saddlebrown;
-}
-
-.btn{
-background-color: saddlebrown !important;
-color: rgb(137, 137, 137) !important;
-}
-
-</style>
 </head>
 
 <body>
@@ -53,7 +23,7 @@ color: rgb(137, 137, 137) !important;
 <div class="row">
 
 <div class="buttons me-auto">
-<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add new Product</button>
+<button type="button" class="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add new Product</button>
 </div>
                 </div>
 </div>
@@ -93,7 +63,7 @@ color: rgb(137, 137, 137) !important;
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                               <form class="d-inline" action="/<%=product._id%>?_method=DELETE"
+                               <form class="d-inline" action="/products/<%=product._id%>?_method=DELETE"
                                                     method="post">
                                                     <button class="dropdown-item">Delete</button>
                                                 </form></a>
@@ -118,12 +88,7 @@ color: rgb(137, 137, 137) !important;
             </div>
 
         </div>
-        <!-- /.container-fluid -->
 
-
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center text-muted my-auto">
@@ -141,125 +106,9 @@ color: rgb(137, 137, 137) !important;
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-<!-- CREATE A PRODUCT -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="/products" method="POST">
-         <div class="input-group mb-3">
+<%- include('../partials/product_modal') %>
 
-  <input type="text" class="form-control" name="product[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1">
-</div>
-
-<div class="input-group mb-3">
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[category]">
-  <option selected disabled>Please Select Category</option>
-<option value="Hot Coffee">Hot Coffee</option>
-  <option value="Iced Coffee">Iced Coffee </option>
-  <option value="smoothie">smoothie</option>
-  <option value="frappe">frappe</option>
-  <option value="Pastries">Pastries</option>
-</select>
-</div>
-<div class="input-group mb-3">
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[size]">
-  <option selected disabled>Please Select Size</option>
-  <option value="Small">Smalle</option>
-  <option value="Medium">Medium</option>
-  <option value="Large">Large</option>
-</select>
-</div>
-
-<div class="input-group mb-3">
-  <span class="input-group-text">$</span>
-  <input name="product[price]" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <span class="input-group-text">.00</span>
-</div>
-
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Image Url" aria-label="image" name="product[image]">
-</div>
-
-<div class="input-group">
-  <span class="input-group-text">Description</span>
-  <textarea name="product[description]" class="form-control" aria-label="With textarea"></textarea>
-</div>
-<button type="submit" class="mt-5 btn btn-secondary">Add new product</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<% products.forEach(function(product){%>
-<!-- UPDATE THE PRODUCT -->
-<div class="modal fade" id="updateProduct<%= product._id %>" tabindex="-1" aria-labelledby="updateProductLabel<%= product._id %>" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="updateProductLabel">New Product</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-         <form action="/products/<%= product._id %>?&_method=PUT" method="POST">
-         <div class="input-group mb-3">
-
-  <input type="text" class="form-control" name="product[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1" value="<%= product.title %>">
-</div>
-
-<div class="input-group mb-3">
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[category]">
-  <option selected value="<%= product.category %>"><%= product.category %></option>
-<option value="Hot Coffee">Hot Coffee</option>
-  <option value="Iced Coffee">Iced Coffee </option>
-  <option value="smoothie">smoothie</option>
-  <option value="frappe">frappe</option>
-  <option value="Pastries">Pastries</option>
-</select>
-</div>
-<div class="input-group mb-3">
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[size]" >
-  <option selected value="<%= product.size %>"><%= product.size %></option>
-  <option value="Small">Smalle</option>
-  <option value="Medium">Medium</option>
-  <option value="Large">Large</option>
-</select>
-</div>
-
-<div class="input-group mb-3">
-  <span class="input-group-text">$</span>
-  <input name="product[price]" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="<%= product.price %>">
-  <span class="input-group-text">.00</span>
-</div>
-
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Image Url" aria-label="image" name="product[image]" value="<%= product.image %>">
-</div>
-
-<div class="input-group">
-  <span class="input-group-text">Description</span>
-  <textarea name="product[description]" class="form-control" aria-label="With textarea"><%= product.description %></textarea>
-</div>
-<button type="submit" class="mt-5 btn btn-secondary">Update</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-      </div>
-    </div>
-  </div>
-</div>
-<% }) %>
+<script src="/javascript/product-dash.js"></script>
 </body>
 
 </html>

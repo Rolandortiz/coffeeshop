@@ -111,7 +111,7 @@ module.exports.cartMiddleware = async (req, res, next) => {
             userID = req.user._id;
             cart = await Cart.findOne({ userID }).populate('products.product');
         } else {
-            // Assuming you have a session ID stored in req.session.sessionID
+
             userID = req.session.sessionID;
             cart = await Cart.findOne({ userID }).populate('products.product');
         }
@@ -131,10 +131,12 @@ module.exports.cartMiddleware = async (req, res, next) => {
                 title: item.product.title,
                 price: item.product.price,
                 category: item.product.category,
-                image: item.product.image,
+                images: item.product.images,
                 productTotalPrice,
-                // Add other product details you want to display in the cart
+
             };
+console.log(cartProducts)
+
         });
         cart.totalPrice = totalPrice.toFixed(2); // Set the total price of the cart
         await cart.save();
@@ -184,9 +186,10 @@ module.exports.createCart = async (req, res, next) => {
                 (cartProduct) => cartProduct.product.toString() === productId
             );
 
-            // Check if the product already exists in the cart
+
+            // Product checking
             if (existingProduct) {
-                // If the product already exists in the cart, update the quantity
+                // update quantity
                 existingProduct.quantity += parsedQuantity;
             } else {
                 // If the product doesn't exist in the cart, add it

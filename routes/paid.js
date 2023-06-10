@@ -7,7 +7,8 @@ const { isLoggedIn, isAdmin } = require('../middleware')
 const catchAsync = require('../utils/catchasync');
 const { v4: uuidv4 } = require('uuid');
 
-router.post('/paid', async (req, res) => {
+
+router.post('/paid', isLoggedIn,isAdmin,catchAsync(async (req, res) => {
     try {
         const order = await Order.findOne({ userID: req.user._id }).sort({ createdAt: -1 });
 
@@ -18,9 +19,17 @@ router.post('/paid', async (req, res) => {
         const receiptNumber = order.receipt;
         const totalPrice = order.amount;
 
+        // Store product details (including ID) instead of the full product object
+        const products = order.products.map(product => {
+            return {
+                product: product.product,
+                quantity: product.quantity
+            };
+        });
+
         const newPaidOrder = new Paid({
             userID: req.user._id,
-            products: order.products,
+            products,
             totalSales: totalPrice,
             address: order.address,
             receipt: receiptNumber,
@@ -28,18 +37,15 @@ router.post('/paid', async (req, res) => {
 
         const savedPaidOrder = await newPaidOrder.save();
         const paid = savedPaidOrder;
+
         res.redirect(`/`);
     } catch (error) {
         console.error(error);
         res.status(500).send('An error occurred while creating the order.');
     }
-});
+}));
 
-
-
-
-
-router.delete('/:id', isAdmin, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn,isAdmin, catchAsync(async (req, res) => {
     const { id } = req.params;
     console.log(id)
     const deleted = await Order.findByIdAndDelete(id);

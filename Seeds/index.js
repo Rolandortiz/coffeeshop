@@ -1,8 +1,8 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const seedData = require('./Seeds/products')
-const Product = require('./model/product')
+const seedData = require('../Seeds/products')
+const Product = require('../model/product')
 
 mongoose.connect('mongodb://127.0.0.1:27017/paulamedCafe', {
     // useNewUrlParser: true,
@@ -18,7 +18,6 @@ db.once("open", () => {
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async (seedData) => {
-    // await Product.deleteMany({});
     for (let i = 0; i < 200; i++) {
 
 

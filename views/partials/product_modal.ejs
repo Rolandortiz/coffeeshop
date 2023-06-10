@@ -1,0 +1,164 @@
+CREATE A PRODUCT
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/products" method="POST" class="validated-form needs-validation" enctype="multipart/form-data"  novalidate>
+         <div class="input-group mb-3">
+  <input type="text" class="form-control" name="product[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1" required>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a name.
+    </div>
+</div>
+
+<div class="input-group mb-3">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[category]">
+  <option selected disabled>Please Select Category</option>
+<option value="Hot Coffee">Hot Coffee</option>
+  <option value="Iced Coffee">Iced Coffee </option>
+  <option value="smoothie">smoothie</option>
+  <option value="frappe">frappe</option>
+  <option value="Pastries">Pastries</option>
+</select>
+</div>
+<div class="input-group mb-3">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[size]">
+  <option selected disabled>Please Select Size</option>
+  <option value="Small">Smalle</option>
+  <option value="Medium">Medium</option>
+  <option value="Large">Large</option>
+</select>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">$</span>
+  <input name="product[price]" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" required>
+  <span class="input-group-text">.00</span>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a price.
+    </div>
+</div>
+
+<div class="input-group mb-3">
+  <input type="file" class="form-control" placeholder="Image Url" aria-label="image" name="image" multiple>
+</div>
+
+<div class="input-group">
+  <span class="input-group-text">Description</span>
+  <textarea name="product[description]" class="form-control" aria-label="With textarea" required></textarea>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a description.
+    </div>
+</div>
+<button type="submit" class="mt-5 btn btn-secondary">Add new product</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<% products.forEach(function(product){%>
+
+<div class="modal fade" id="updateProduct<%= product._id %>" tabindex="-1" aria-labelledby="updateProductLabel<%= product._id %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateProductLabel">New Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form action="/products/<%= product._id %>?&_method=PUT" method="POST" class="validated-form needs-validation" novalidate enctype="multipart/form-data">
+         <div class="input-group mb-3">
+  <input type="text" class="form-control" name="product[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1" value="<%= product.title %>">
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a name.
+    </div>
+</div>
+
+<div class="input-group mb-3">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[category]">
+  <option selected value="<%= product.category %>"><%= product.category %></option>
+<option value="Hot Coffee">Hot Coffee</option>
+  <option value="Iced Coffee">Iced Coffee </option>
+  <option value="smoothie">smoothie</option>
+  <option value="frappe">frappe</option>
+  <option value="Pastries">Pastries</option>
+</select>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please select a category.
+    </div>
+</div>
+
+<div class="input-group mb-3">
+  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product[size]" >
+  <option selected value="<%= product.size %>"><%= product.size %></option>
+  <option value="Small">Smalle</option>
+  <option value="Medium">Medium</option>
+  <option value="Large">Large</option>
+</select>
+</div>
+
+<div class="input-group mb-3">
+  <span class="input-group-text">$</span>
+  <input name="product[price]" type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="<%= product.price %>">
+  <span class="input-group-text">.00</span>
+</div>
+
+<div class="input-group">
+  <span class="input-group-text">Description</span>
+  <textarea name="product[description]" class="form-control" aria-label="With textarea"><%= product.description %></textarea>
+</div>
+ <div class="input-group mb-3">
+                    <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Choose an image</label>
+                        <input class="form-control" type="file" id="image" name="image" multiple>
+                    </div>
+                </div>
+<% product.images.forEach((image, i)=> { %>
+<div class="col mt-4">
+                            <div class="card" style="width: 100px;">
+                                <img class="card-img" src="<%= image.thumbnail %>" alt="">
+                                <div class="card-img-overlay text-end pt-1 pe-2">
+                                    <label class="visually-hidden" for="image-<%= i %>">Delete Image</label>
+                                    <input class="form-check-input" type="checkbox" name="deleteImages[]"
+                                        value="<%= image.filename %>" id="image-<%= i %>">
+                                </div>
+                            </div>
+                        </div>
+<% }) %>
+<button type="submit" class="mt-5 btn btn-secondary">Update</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<% }) %>
+
+<script src="/javascript/product-dash.js"></script>

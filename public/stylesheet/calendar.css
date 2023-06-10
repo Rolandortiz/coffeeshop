@@ -1,0 +1,142 @@
+  .calendar {
+width: 1200px;
+height: 650px;
+      table-layout: fixed;
+    }
+.input-group {
+  position: relative;
+}
+
+.input-prefix {
+  position: absolute;
+  top: 22%;
+  transform: translateY(-50%);
+  left: 218px;
+  pointer-events: none;
+}
+
+
+.weekly{
+width: 1200px;
+height: 1050px;
+display: flex;
+margin-top: 1rem;
+padding: 1rem;
+border: 1px solid #957c6a;
+flex-direction: row;
+}
+.weekly th,
+.weekly td{
+height: 150px;
+display: flex;
+flex-direction: column;
+    table-layout: fixed;
+}
+
+.weekly td{
+margin-left: 1rem;
+}
+
+    .calendar th,
+    .calendar td {
+color: #5f4f44;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .calendar .current-month {
+color: black;
+      background-color: #f8f8f8;
+transition: 1s ease
+    }
+.calendar .current-month:hover{
+background-color: #ffcaa5;
+
+}
+
+    .calendar .today {
+      background-color: #6F4E37;
+    }
+
+    .weekly .today {
+      background-color: #6F4E37;
+    }
+
+.calendar .todayWeek{
+background-color: #ffc9a2;
+
+}
+
+.pagination .material-symbols-outlined{
+font-size: 40px;
+color: #6F4E37;
+transition: .5s ease;
+}
+
+.pagination .material-symbols-outlined:hover{
+transform: scale(1.1);
+color: #ffc194;
+}
+
+.pagination{
+margin: 20px 430px 0 0;
+
+}.align-top {
+  vertical-align: top;
+}
+
+
+.checkbox {
+ position: relative;
+ width: 20px;
+ height: 20px;
+ border-radius: 2px;
+ appearance: none;
+ background-color: #a28c7a;
+ transition: all .3s;
+}
+
+.checkbox::before {
+ content: '';
+ position: absolute;
+ border: solid #fff;
+ display: block;
+ width: .4em;
+ height: .8em;
+ border-width: 0 .1em .1em 0;
+ z-index: 1;
+ opacity: 0;
+ right: calc(50% - .2em);
+ top: calc(50% - .6em);
+ transform: rotate(0deg);
+ transition: all .3s;
+ transform-origin: center center;
+}
+
+.checkbox:checked {
+ animation: a .3s ease-in forwards;
+ background-color: #6F4E37;
+}
+
+.checkbox:checked::before {
+ opacity: 1;
+ transform: rotate(405deg);
+}
+
+@keyframes a {
+ 0% {
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+ }
+
+ 50% {
+  opacity: 0;
+  transform: scale(.8) rotateY(180deg);
+ }
+
+ 100% {
+  opacity: 1;
+  transform: scale(1) rotateY(360deg);
+ }
+}

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log('Product added to cart successfully');
 
                     if (
-                        data.image &&
+                        data.images &&
                         data.category &&
                         data.title &&
                         data.price &&
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const newProductHTML = `
               <div class="row mb-4 d-flex justify-content-between align-items-center">
                 <div class="col-md-2 col-lg-2 col-xl-2">
-                  <img src="${data.image}" class="img-fluid rounded-3" alt="">
+                  <img src="${data.images}" class="img-fluid rounded-3" alt="">
                 </div>
                 <div class="col-md-3 col-lg-3 col-xl-3 title">
                   <p class="text-muted">${data.category}</p>

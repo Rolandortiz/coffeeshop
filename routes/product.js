@@ -3,8 +3,12 @@ const router = express.Router();
 const Product = require('../model/product')
 const catchAsync = require('../utils/catchasync');
 const { isAdmin, isLoggedIn, isOwner, cartMiddleware } = require('../middleware');
-const ExpressError = require('../utils/ExpressError');
-const Cart = require('../model/cart');
+const { storage } = require('../cloudinary');
+const { cloudinary } = require('../cloudinary');
+const multer = require('multer');
+const upload = multer({ storage })
+
+
 
 
 // all products
@@ -18,11 +22,14 @@ router.get('/products', cartMiddleware, async (req, res) => {
 
 
 // creating product
-router.post('/products', catchAsync(async (req, res) => {
+router.post('/products',upload.array('image'), catchAsync(async (req, res) => {
     try {
+
         const product = new Product(req.body.product)
+product.images = req.files.map(i => ({url: i.path, filename: i.filename}))
+console.log(req.files)
         const saveProduct = product.save();
-console.log(saveProduct)
+
         res.redirect('/product-dashboard')
     } catch (err) {
         console.log(err.message);
@@ -53,7 +60,8 @@ router.get('/products/:id', cartMiddleware, catchAsync(async (req, res, next) =>
 }))
 //update product
 router.get('/products/:id/edit', async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
+console.log(id)
     const product = await Product.findById(id)
     if (!product) {
         req.flash('error', "We cannot find that product")
@@ -63,9 +71,19 @@ router.get('/products/:id/edit', async (req, res) => {
 })
 
 //show
-router.put('/products/:id', catchAsync(async (req, res, next) => {
+router.put('/products/:id',upload.array('image'), catchAsync(async (req, res, next) => {
     const { id } = req.params;
+console.log(id)
     const product = await Product.findByIdAndUpdate(id, {...req.body.product});
+const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
+    product.images.push(...imgs);
+    await product.save()
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await product.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     await product.save();
     req.flash('success', 'Product updated')
     res.redirect(`/product-dashboard`)
@@ -73,9 +91,10 @@ router.put('/products/:id', catchAsync(async (req, res, next) => {
 }))
 
 
-//delete product
+
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
+console.log(id)
     await Product.findByIdAndDelete(id);
 
     res.redirect('/product-dashboard');

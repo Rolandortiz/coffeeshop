@@ -8,6 +8,7 @@
     flex-direction: column;
     position: relative;
     left: 10%;
+overflow: scroll;
 
 }
 .no-bullets {

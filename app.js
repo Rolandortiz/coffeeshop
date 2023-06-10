@@ -11,11 +11,10 @@ const LocalStrategy = require('passport-local');
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const session = require('express-session')
-const User = require('./model/user')
-const Paid = require('./model/paid')
+
 const { v4: uuidv4 } = require('uuid');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-const Order = require('./model/order')
+
 const cors = require('cors')
 const helmet = require('helmet')
 const MongoDBStore = require("connect-mongo");
@@ -28,6 +27,7 @@ const orderRoute = require('./routes/order')
 const cartRoute = require('./routes/cart')
 const paidRoute = require('./routes/paid')
 const adminRoute = require('./routes/admin')
+const scheduleRoute = require('./routes/schedules')
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const paypal = require('@paypal/checkout-server-sdk');
@@ -35,7 +35,13 @@ const axios = require('axios');
 const environment = process.env.ENVIRONMENT || 'sandbox'
 const endpoint_url = environment === 'sandbox'? 'https://api-m.sandbox.paypal.com' :'https://api-m.paypal.com';
 
+const { isAdmin, isLoggedIn, isOwner, cartMiddleware } = require('./middleware');
 
+// models
+const User = require('./model/user')
+const Paid = require('./model/paid')
+const Order = require('./model/order')
+const Product = require('./model/product')
 // Data base
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/paulamedCafe'
 
@@ -171,7 +177,7 @@ app.use(
                 "'self'",
                 "blob:",
                 "data:",
-                `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`, //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+                `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/`,
                 "https://images.unsplash.com/",
                 "https://i.pinimg.com/564x/6c/bf/00/6cbf00a772725add422adf6bb976f6ba.jpg",
                 "https://media.istockphoto.com/",
@@ -181,6 +187,7 @@ app.use(
                 "https://www.paypalobjects.com/js-sdk-logos/2.2.7/paypal-blue.svg",
                 "https://www.paypalobjects.com/js-sdk-logos/2.2.7/card-black.svg",
                 "https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp",
+                "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/images/ui-icons_444444_256x240.png",
 
 
 
@@ -266,16 +273,17 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
+app.get('/debug',cartMiddleware,  async(req, res) => {
+   console.log(req.cart.cartProducts);
+  res.send('Cart products logged in the console');
+});
 
 
 
 app.get('/privacypolicy', (req, res) => {
     res.render('partials/PrivacyPolicy')
 })
-app.get('/index', (req, res) => {
-    const cartProducts = req.cartProducts;
-    res.render('index', { cartProducts })
-})
+
 
 app.post('/payment', async (req, res) => {
     const orderId = req.body.orderId;
@@ -419,6 +427,7 @@ app.use('/', orderRoute);
 app.use('/', cartRoute);
 app.use('/', adminRoute);
 app.use('/', paidRoute);
+app.use('/', scheduleRoute);
 
 
 app.get('/auth/facebook', passport.authenticate('facebook'));

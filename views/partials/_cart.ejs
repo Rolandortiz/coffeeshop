@@ -37,9 +37,16 @@
 
                                 <% cartProducts.forEach((product)=> { %>
                                     <div class="cart-products row mb-4 d-flex justify-content-between align-items-center">
+<% if (product.images && product.images.length) { %>
                                         <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <img src="<%= product.image%>" class="img-fluid rounded-3" alt="">
+                                            <img src="<%= product.images%>" class="img-fluid rounded-3" alt="">
                                         </div>
+<% }else{ %>
+
+  <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="https://images.unsplash.com/photo-1547583881-58685cb3210f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aG90JTIwY29mZmVlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" class="img-fluid" class="img-fluid rounded-3" alt="">
+                                        </div>
+<% } %>
                                         <div class="col-md-3 col-lg-3 col-xl-3 title">
                                             <p class="text-muted">
                                                 <%= product.category %>

@@ -127,10 +127,10 @@ background-color: rgb(141, 141, 141);
 
 
 
-        <script>
+   <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const monthlyData = <%- JSON.stringify(monthlyData) %>;
-                const bestSellerProducts = <%- JSON.stringify(bestSellerProducts) %>;
+                const bestSellerProducts =<%- JSON.stringify(bestSellerProducts) %>;
 
                 // Create the chart
                 const ctx = document.getElementById('monthlyChart').getContext('2d');
