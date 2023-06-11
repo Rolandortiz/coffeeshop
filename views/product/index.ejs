@@ -1,12 +1,25 @@
 <% layout('/layouts/boilerplate') %>
     <link rel="stylesheet" href="/stylesheet/indexproduct.css">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<style>
+#canvas{
+width: 100%;
+height: 90%;
+position: absolute;
+left: 0;
+top: 27%;
 
+}
 
-    <section class="mt-5">
+</style>
+    <section class="mt-5 product-section">
         <%- include('../partials/_cart') %>
             <!-- main content -->
+<canvas id="canvas"></canvas>
             <div class="container mt-4">
+
                 <ul class="nav nav-tabs d-flex justify-content-center align-items-center mt-3" id="myTab"
                     role="tablist">
                     <li class="nav-item" role="presentation">
@@ -34,7 +47,9 @@
                             type="button" role="tab" aria-controls="pastries" aria-selected="false">Pastries</button>
                     </li>
                 </ul>
+
                 <div class="tab-content" id="myTabContent">
+
                     <div class="tab-pane fade show active" id="hot-coffee" role="tabpanel"
                         aria-labelledby="hot-coffee-tab">
                         <div class="container-fluid mt-5">
@@ -119,7 +134,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="iced-coffee" role="tabpanel" aria-labelledby="iced-coffee-tab">
-                        <div class="container-fluid mt-5">
+                        <div class="container-fluid mt-5 ">
                             <div class="row d-flex flex-wrap justify-content-center" id="product-list">
                                 <% for(let product of products){ %>
                                     <% if(product.category.includes("Iced Coffee")){ %>
@@ -200,7 +215,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="frappe" role="tabpanel" aria-labelledby="frappe-tab">
-                        <div class="container-fluid mt-5">
+                        <div class="container-fluid mt-5 ">
                             <div class="row d-flex flex-wrap justify-content-center" id="product-list">
                                 <% for(let product of products){ %>
                                     <% if(product.category.includes("frappe")){ %>
@@ -282,7 +297,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="smoothie" role="tabpanel" aria-labelledby="smoothie-tab">
-                        <div class="container-fluid mt-5">
+                        <div class="container-fluid mt-5 ">
                             <div class="row d-flex flex-wrap justify-content-center" id="product-list">
                                 <% for(let product of products){ %>
                                     <% if(product.category.includes("smoothie")){ %>
@@ -365,7 +380,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="pastries" role="tabpanel" aria-labelledby="pastries-tab">
-                        <div class="container-fluid mt-5">
+                        <div class="container-fluid mt-5 ">
                             <div class="row d-flex flex-wrap justify-content-center" id="product-list">
                                 <% for(let product of products){ %>
                                     <% if(product.category.includes("Pastries")){ %>
@@ -432,6 +447,116 @@
                             </div>
                         </div>
                     </div>
-
-
+</div>
+</div>
     </section>
+<script>
+const projectSection = document.querySelector('.container');
+
+const projectAnim = gsap.timeline({
+    scrollTrigger: {
+        trigger: projectSection,
+        toggleActions: "restart pause resume reset",
+        start: 'top bottom',
+        end: 'bottom top',
+    }
+});
+
+projectAnim.from(".card", {
+    duration: 1,
+    scale: 0.5,
+    opacity: 0,
+    delay: 0.5,
+    stagger: 0.2,
+    ease: "elastic",
+    force3D: true
+});
+
+
+</script>
+
+<script>
+const canvas = document.getElementById('canvas')
+const ctx = canvas. getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let spots = [];
+ let hue = 0;
+
+const mouse = {
+x:undefined,
+y:undefined,
+}
+canvas.addEventListener('mousemove', function(event){
+mouse.x = event.x;
+mouse.y = event.y;
+for(let i = 0; i<3;i++){
+spots.push(new Particles());
+}
+
+})
+
+class Particles{
+constructor(){
+this.x = mouse.x;
+this.y = mouse.y -150;
+this.size = Math.random() * 2 + 0.1;
+this.speedX = Math.random() * 2 - 1;
+this.speedY = Math.random() * 2 - 1;
+this.color = 'hsl(' + hue +', 100%, 50%)';
+}
+update(){
+this.x += this.speedX
+this.y += this.speedY
+if(this.size > 0.1) this.size -= 0.03;
+}
+draw(){
+ctx.fillStyle = this.color;
+ctx.beginPath();
+ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+ctx.fill();
+
+}
+}
+function handleParticle(){
+for (let i = 0; i < spots.length; i++){
+spots[i].update();
+spots[i].draw();
+for(let j = i; j < spots.length; j++){
+const dx = spots[i].x - spots[j].x;
+const dy = spots[i].y - spots[j].y;
+const distance = Math.sqrt(dx * dx * dy * dy);
+if (distance < 90){
+ctx.beginPath();
+ctx.strokeStyles = spots[i].color;
+ctx.lineWidth = spots[i].size/10;
+ctx.moveTo(spots[i].x, spots[i].y);
+ctx.lineTo(spots[i].x, spots[i].y);
+ctx.stroke()
+}
+}
+if (spots[i].size <= 0.3){
+spots.splice(i, 1); i--;
+}
+}
+}
+function animate(){
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+handleParticle();
+hue++;
+requestAnimationFrame(animate);
+}
+window.addEventListener('resize', function(){
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+init()
+})
+
+window.addEventListener('moutseout', function(){
+mouse.x= undefined;
+mouse.y= undefined;
+})
+
+animate()
+
+</script>

@@ -1,0 +1,59 @@
+ .monthly-sales {
+            width: 100%;
+            height: 85%;
+            margin-top: 5rem;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+        .sales-container {
+            width: 18%;
+            height: 337px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+        .sales-container h2 {
+            font-size: 40px;
+        }
+
+        .sales-container small {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .pie-chart {
+            width: 18%;
+padding: 10px;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+        }
+
+        .active-users{
+padding: 10px;
+            border-radius: 15px;
+            box-shadow: 10px 5px 5px rgb(77, 77, 77);
+}
+
+.active{
+
+width: 10px;
+height: 10px;
+margin-right: 10px;
+display:inline-block;
+border-radius: 50%;
+background-color: green;
+}
+.notActive{
+
+width: 10px;
+height: 10px;
+margin-right: 10px;
+display:inline-block;
+border-radius: 50%;
+background-color: rgb(141, 141, 141);
+}
+

@@ -31,16 +31,21 @@
                         <li><a href="/login" class="nav-link px-2 link-dark ms-2">Register</a></li>
                     </ul>
                 <% }else{ %>
-
+<% console.log(currentUser) %>
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="/images/junjo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+<% if (currentUser && currentUser.images && currentUser.images.length > 0) { %>
+  <img src="<%= currentUser.images[0].url %>" alt="mdo" width="32" height="32" class="rounded-circle">
+<% } else { %>
+  <img src="https://images.unsplash.com/photo-1527596428171-7885b82c91c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y29mZmVlJTIwYW5pbWF0aW9ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="avatar" width="32" height="32" class="rounded-circle">
+<% } %>
                     </a>
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
                         <p class="text-center">
                             <%= currentUser.username %>
                         </p>
+                        <li><a class="dropdown-item" href="/profile/<%= currentUser._id %>">Profile</a></li>
                         <li><a class="dropdown-item" href="/order/<%= order ? order._id : '' %>">Order</a></li>
 
                         <% if(isAdmin){ %>
@@ -50,6 +55,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+
                     </ul>
                 </div>
                     <% } %>

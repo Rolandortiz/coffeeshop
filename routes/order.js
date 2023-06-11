@@ -162,25 +162,7 @@ router.delete('/:id',isLoggedIn, isAdmin, catchAsync(async (req, res) => {
 
 
 // updating the order in the dash-board
-router.post('/save-schedule', (req, res) => {
-  const { scheduleId, isChecked } = req.body;
 
-  const updatedIsChecked = isChecked === 'true';
-
-  Schedule.findByIdAndUpdate(
-    scheduleId,
-    { isChecked: updatedIsChecked },
-    { new: true },
-    (err, updatedSchedule) => {
-      if (err) {
-        console.error(err);
-        res.sendStatus(500);
-      } else {
-        res.sendStatus(200);
-      }
-    }
-  );
-});
 
 
 

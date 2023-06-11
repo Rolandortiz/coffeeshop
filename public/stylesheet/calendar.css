@@ -1,8 +1,10 @@
   .calendar {
 width: 1200px;
-height: 650px;
-      table-layout: fixed;
+height: 750px;
+table-layout: fixed;
+
     }
+
 .input-group {
   position: relative;
 }
@@ -15,6 +17,12 @@ height: 650px;
   pointer-events: none;
 }
 
+.calendar .task-sched{
+background-color: rgba(255, 108, 108, 0.275);
+width: 100%;
+height: 20%;
+border-radius: 10px;
+}
 
 .weekly{
 width: 1200px;
@@ -37,41 +45,49 @@ flex-direction: column;
 margin-left: 1rem;
 }
 
-    .calendar th,
-    .calendar td {
-color: #5f4f44;
+    .calendar th {
+      color: #5f4f44;
       text-align: center;
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 0.5px solid #f0f0f0;
     }
-
-    .calendar .current-month {
-color: black;
-      background-color: #f8f8f8;
-transition: 1s ease
-    }
-.calendar .current-month:hover{
-background-color: #ffcaa5;
+.calendar td {
+  color: #5f4f44;
+height: 100px;
+  text-align: left;
+  vertical-align: top;
+  padding: 10px;
+  border: 0.5px solid #f0f0f0;
 
 }
 
-    .calendar .today {
-      background-color: #6F4E37;
+    .calendar .current-month {
+      color: black;
+      background-color: #f8f8f8;
+      transition: 1s ease
+    }
+    .calendar .current-month:hover{
+    background-color: #ffcaa5;
+
     }
 
-    .weekly .today {
-      background-color: #6F4E37;
+    .calendar .today {
+       background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 153, 51,0.3) 100%);
+
     }
+
+
 
 .calendar .todayWeek{
-background-color: #ffc9a2;
+ background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 153, 51,0.5) 100%);
 
 }
 
 .pagination .material-symbols-outlined{
 font-size: 40px;
-color: #6F4E37;
+color: #ffd1b0;
 transition: .5s ease;
+
 }
 
 .pagination .material-symbols-outlined:hover{
@@ -81,7 +97,7 @@ color: #ffc194;
 
 .pagination{
 margin: 20px 430px 0 0;
-
+justify-content: space-between;
 }.align-top {
   vertical-align: top;
 }
@@ -116,7 +132,7 @@ margin: 20px 430px 0 0;
 
 .checkbox:checked {
  animation: a .3s ease-in forwards;
- background-color: #6F4E37;
+ background-color: linear-gradient(to bottom, #ffffff 0%, #ff9933 100%);
 }
 
 .checkbox:checked::before {
@@ -140,3 +156,4 @@ margin: 20px 430px 0 0;
   transform: scale(1) rotateY(360deg);
  }
 }
+

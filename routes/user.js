@@ -8,9 +8,67 @@ const passport = require('passport')
 const FacebookStrategy = require('passport-facebook').Strategy
 const mongoose = require('mongoose')
 const catchAsync = require('../utils/catchasync');
-const { isAdmin, sendEmailReg } = require('../middleware')
+const { sendEmailReg } = require('../middleware')
+const { storage } = require('../cloudinary');
+const { cloudinary } = require('../cloudinary');
+const multer = require('multer');
+const upload = multer({ storage })
 
 
+
+
+// Profile
+router.get('/profile/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      req.flash('error', 'There is no user found');
+      return res.redirect('/');
+    }
+const currentUser = req.user;
+    res.render('user/profile', { user, currentUser });
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'An error occurred');
+    res.redirect('/');
+  }
+});
+
+router.get('/profile/:id/edit', async(req,res)=>{
+try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      req.flash('error', 'There is no user found');
+      return res.redirect('/');
+    }
+    res.render('user/edit', { user });
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'An error occurred');
+    res.redirect('/');
+  }
+
+})
+
+
+router.put('/profile/:id', upload.array('image'), catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+
+    const user = await User.findByIdAndUpdate(id, {...req.body.user});
+const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
+    user.images.push(...imgs);
+    await user.save()
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await user.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
+    await user.save();
+    req.flash('success', 'Product updated')
+    res.redirect(`/profile/${user._id}`)
+
+}))
 
 // customer registration
 

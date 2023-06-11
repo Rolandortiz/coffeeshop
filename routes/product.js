@@ -58,7 +58,7 @@ router.get('/products/:id', cartMiddleware, catchAsync(async (req, res, next) =>
         next(err)
     }
 }))
-//update product
+//edit form
 router.get('/products/:id/edit', async (req, res) => {
     const { id } = req.params;
 console.log(id)
@@ -70,7 +70,8 @@ console.log(id)
     res.render('product/edit', { product })
 })
 
-//show
+
+//update product
 router.put('/products/:id',upload.array('image'), catchAsync(async (req, res, next) => {
     const { id } = req.params;
 console.log(id)
@@ -92,7 +93,7 @@ const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
 
 
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/product/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
 console.log(id)
     await Product.findByIdAndDelete(id);

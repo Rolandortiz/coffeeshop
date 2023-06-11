@@ -135,7 +135,7 @@ module.exports.cartMiddleware = async (req, res, next) => {
                 productTotalPrice,
 
             };
-console.log(cartProducts)
+
 
         });
         cart.totalPrice = totalPrice.toFixed(2); // Set the total price of the cart

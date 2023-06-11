@@ -113,6 +113,7 @@ const scriptSrcUrls = [
     "https://www.paypal.com/sdk/js",
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js",
     "https://api2.amplitude.com/",
+    "https://unpkg.com/@barba/core",
 
 
 
@@ -245,26 +246,27 @@ passport.use(new GoogleStrategy({
 app.use(flash());
 
 app.use((req, res, next) => {
-    res.locals.isAdmin = req.user && req.user.isAdmin === true;
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-res.locals.isLoggedIn = req.user ? true : false;
-    // Add the 'order' variable to res.locals
-    if (req.user) {
-        Order.findOne({ userID: req.user._id })
-            .then(order => {
-                res.locals.order = order;
-                next();
-            })
-            .catch(error => {
-                console.error(error);
-                next(error);
-            });
-    } else {
-        res.locals.order = null;
+  res.locals.isAdmin = req.user && req.user.isAdmin === true;
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  res.locals.isLoggedIn = req.user ? true : false;
+
+  // Add the 'order' variable to res.locals
+  if (req.user) {
+    Order.findOne({ userID: req.user._id })
+      .then(order => {
+        res.locals.order = order;
         next();
-    }
+      })
+      .catch(error => {
+        console.error(error);
+        next(error);
+      });
+  } else {
+    res.locals.order = null;
+    next();
+  }
 });
 
 // setting template

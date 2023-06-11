@@ -63,7 +63,7 @@ CREATE A PRODUCT
       Please provide a description.
     </div>
 </div>
-<button type="submit" class="mt-5 btn btn-secondary">Add new product</button>
+<button type="submit" class="mt-5 btn btn-secondary" id="addProductBtn">Add new product</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -72,7 +72,11 @@ CREATE A PRODUCT
       </div>
     </div>
   </div>
+
 </div>
+
+
+<!-- updating -->
 
 <% products.forEach(function(product){%>
 
@@ -84,7 +88,7 @@ CREATE A PRODUCT
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-         <form action="/products/<%= product._id %>?&_method=PUT" method="POST" class="validated-form needs-validation" novalidate enctype="multipart/form-data">
+         <form action="/products/<%= product._id %>?_method=PUT" method="POST" class="validated-form needs-validation" novalidate enctype="multipart/form-data">
          <div class="input-group mb-3">
   <input type="text" class="form-control" name="product[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1" value="<%= product.title %>">
 <div class="valid-feedback">

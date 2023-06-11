@@ -1,0 +1,74 @@
+<% layout('/layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheet/profile.css">
+
+<section class="profile-section">
+<canvas id="canvas"></canvas>
+  <div class="container-fluid py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center box-1">
+<% if(user.images.length){ %>
+            <img src="<%= user.images[0].url %>" alt="avatar"
+class="rounded-circle img-fluid" style="width: 200px; height: 200px;">
+<% }else{%>
+ <img src="https://images.unsplash.com/photo-1527596428171-7885b82c91c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y29mZmVlJTIwYW5pbWF0aW9ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="avatar"
+class="rounded-circle img-fluid" style="width: 200px; height: 200px;">
+<% }  %>
+
+            <h5 class="my-3"><%= user.fullname %></h5>
+            <p class="text-muted mb-1"><%= user.email %></p>
+            <p class="text-muted mb-4"><%= user.address %></p>
+            <div class="d-flex justify-content-center mb-2">
+              <button type="button" class="btn btn-outline-primary ms-1"><a href="/profile/<%= user._id %>/edit">Update Account</a></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4 mt-5">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.fullname %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.email %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mobile</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.number %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Address</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.address %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/javascript/particles-mouse.js"></script>

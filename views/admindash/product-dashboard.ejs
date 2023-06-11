@@ -8,24 +8,39 @@
     <title>Shadowies Cafe</title>
     <link rel="stylesheet" href="stylesheet/user-dash.css">
     <link rel="stylesheet" href="stylesheet/products.css">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,300&display=swap" rel="stylesheet">
-
+<link rel="stylesheet" href="/stylesheet/transition.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@barba/core"></script>
 </head>
+<%- include('../partials/flash') %>
+<%- include('../partials/sidebar') %>
+<body data-barba="wrapper">
+<div class="loading-container">
+<div class="loading-screen">
+ <div data-glitch="Loading..." class="glitch">Loading...</div>
+</div>
+</div>
 
-<body>
-    <%- include('../partials/sidebar') %>
+
+<main data-barba="container" data-barba-namespace="dashboard-section">
+
         <div class="container-md dash-content">
             <h1 class="h3 mb-2 text-gray-900">Products</h1>
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-<div class="row">
+<div class="d-flex justify-content-between align-items-center table-header">
 
-<div class="buttons me-auto">
+<div class="buttons">
 <button type="button" class="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add new Product</button>
 </div>
-                </div>
+</div>
 </div>
 
                 <div class="card-body">
@@ -63,7 +78,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                             <li>
-                               <form class="d-inline" action="/products/<%=product._id%>?_method=DELETE"
+                               <form class="d-inline" action="/product/<%=product._id%>?_method=DELETE"
                                                     method="post">
                                                     <button class="dropdown-item">Delete</button>
                                                 </form></a>
@@ -88,7 +103,7 @@
             </div>
 
         </div>
-
+</main>
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center text-muted my-auto">
@@ -106,8 +121,23 @@
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-<%- include('../partials/product_modal') %>
+<%- include('../partials/modals/product_modal') %>
+<script>
+gsap.from(".container-md", {
+duration: 1,
+    scale: 0.5,
+    opacity: 0,
+    delay: 0.5,
+    stagger: 0.2,
+    ease: "back",
+    force3D: true
+});
+</script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
 <script src="/javascript/product-dash.js"></script>
 </body>
 

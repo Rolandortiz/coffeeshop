@@ -26,9 +26,8 @@ list-style: none;
   color: saddlebrown;
 }
 
-.button {
+.table-header .button {
   cursor: pointer;
-  position: relative;
   padding: 10px 24px;
   font-size: 13px;
   color: rgb(193, 163, 98);
@@ -66,6 +65,12 @@ list-style: none;
 
 .button:active {
   scale: 1;
+}
+
+.buttons button{
+display: flex;
+justify-content: end;
+margin: 15rem 0 0 33rem;
 }
 
 

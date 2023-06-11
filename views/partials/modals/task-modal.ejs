@@ -1,0 +1,58 @@
+<div class="modal fade" id="schedule" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">To do!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/schedule" method="POST" class="validated-form needs-validation" novalidate>
+         <div class="input-group mb-3">
+  <input type="text" class="form-control" name="schedule[title]" placeholder="title" aria-label="title" aria-describedby="basic-addon1" required>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a title.
+    </div>
+</div>
+<div  class="bt-form bt-outline w-50 datepicker" inline="true" >
+  <input id="datepicker" placeholder="Select date" type="text"  class="form-control" name="schedule[date]" required>
+<i class="fas fa-calendar input-prefix"></i>
+</div>
+
+<div class="input-group mt-3 w-50">
+  <input type="time" name="schedule[time]" class="form-control" />
+</div>
+
+<div class="input-group mt-3">
+  <span class="input-group-text">Description</span>
+  <textarea name="schedule[description]" class="form-control" aria-label="With textarea" required></textarea>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a description.
+    </div>
+</div>
+
+<div class="input-group mt-3">
+  <span class="input-group-text">Reminders</span>
+  <textarea name="schedule[reminders]" class="form-control" aria-label="With textarea" required></textarea>
+<div class="valid-feedback">
+      Looks good!
+    </div>
+ <div class="invalid-feedback">
+      Please provide a description.
+    </div>
+</div>
+<button type="submit" class="mt-5 btn btn-secondary">Add new schedule</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
