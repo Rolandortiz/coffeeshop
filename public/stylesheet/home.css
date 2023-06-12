@@ -4,9 +4,12 @@
     box-sizing: border-box;
 
 }
+
+
 #home{
 width: 100%;
 height: 100vh;
+ font-family: 'Della Respira', serif;
 }
 
 .background-container {
@@ -16,8 +19,8 @@ height: 100vh;
     background-size: cover;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0; /* Add this line */
+    bottom: 0; /* Add this line */
     overflow: hidden;
     z-index: -999;
 }
@@ -563,7 +566,7 @@ height: 100vh;
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #fcb503);
+    background: linear-gradient(90deg, transparent, #F3DBB2);
 }
 
 .btn1:hover .spn:nth-child(1) {
@@ -576,7 +579,7 @@ height: 100vh;
     right: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #fcb503);
+    background: linear-gradient(90deg, transparent, #F3DBB2);
 }
 
 .btn1:hover .spn:nth-child(3) {
@@ -590,7 +593,7 @@ height: 100vh;
     right: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, transparent, #fcb503);
+    background: linear-gradient(180deg, transparent, #F3DBB2);
 }
 
 .btn1:hover .spn:nth-child(2) {
@@ -604,7 +607,7 @@ height: 100vh;
     left: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(360deg, transparent, #fcb503);
+    background: linear-gradient(360deg, transparent, #F3DBB2);
 }
 
 .btn1:hover .spn:nth-child(4) {
@@ -614,10 +617,10 @@ height: 100vh;
 }
 
 .btn1:active {
-    background: #fcb503;
-    background: linear-gradient(to top right, #fcb503, #ffffff);
+    background: #F3DBB2;
+    background: linear-gradient(to top right, #F3DBB2, #ffffff);
     color: #bfbfbf;
-    box-shadow: 0 0 8px #fcb503, 0 0 10px #ffffff, 0 0 10px #fcb503;
+    box-shadow: 0 0 8px #F3DBB2, 0 0 10px #ffffff, 0 0 10px #F3DBB2;
     transition: 0.1s;
 }
 
@@ -627,15 +630,13 @@ height: 100vh;
 }
 
 #products-section {
-  width: 200vh;
+  width: 100%;
   height: 150vh;
-margin-right: 4rem;
-
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* margin-right: 2rem; */
+     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   overflow: auto;
-border-radius: 20px;
 }
 
 #products-section::-webkit-scrollbar {
@@ -659,10 +660,11 @@ border-radius: 20px;
 
 
 #promo{
-  width: 200vh;
-  height: 50vh;
-margin-right: 4rem;
-background:transparent;
+width: 100%;
+height: 60vh;
+background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
 display: flex;
 justify-content: center;
 align-items: center;
@@ -671,6 +673,7 @@ align-items: center;
 #promo .carousel{
 width: 100%;
 height: 100%;
+
 }
 
 .carousel .carousel-inner{

@@ -138,6 +138,7 @@ module.exports.cartMiddleware = async (req, res, next) => {
 
 
         });
+
         cart.totalPrice = totalPrice.toFixed(2); // Set the total price of the cart
         await cart.save();
 

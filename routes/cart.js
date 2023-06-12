@@ -10,7 +10,7 @@ const catchasync = require('../utils/catchasync');
 
 
 
-router.post('/products/:id/cart', isLoggedIn, createCart, async (req, res) => {
+router.post('/products/:id/cart', isLoggedIn, createCart, catchasync(async (req, res) => {
     const productId = req.params.id;
 
     // Retrieve the product details from the database
@@ -31,7 +31,7 @@ router.post('/products/:id/cart', isLoggedIn, createCart, async (req, res) => {
 
     });
 
-});
+}));
 
 
 router.patch('/cart/update', isLoggedIn,cartMiddleware, updateCart, (req, res) => {

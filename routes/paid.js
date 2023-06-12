@@ -47,7 +47,6 @@ router.post('/paid', isLoggedIn,isAdmin,catchAsync(async (req, res) => {
 
 router.delete('/:id', isLoggedIn,isAdmin, catchAsync(async (req, res) => {
     const { id } = req.params;
-    console.log(id)
     const deleted = await Order.findByIdAndDelete(id);
 
     req.flash('success', 'Order List Deleted!')

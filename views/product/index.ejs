@@ -76,7 +76,18 @@ top: 27%;
                                                             </div>
                                                         </div>
                                                         <div class="front">
-
+                                                         <% let isBestSeller = false; %>
+                                                        <% for(let bestSeller of bestSellerProducts) { %>
+                                                            <% if(bestSeller.product && bestSeller.product._id.toString() === product._id.toString()) { %>
+                                                                <% isBestSeller = true; %>
+                                                                <% break; %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if(isBestSeller) { %>
+                                                           <div class="box">
+                                                        <div class="ribbon red"><span>Best Seller</span></div>
+                                                        </div>
+                                                        <% } %>
                                                             <div class="img">
                                                                 <div class="circle">
                                                                 </div>
@@ -87,6 +98,7 @@ top: 27%;
                                                             </div>
 
                                                             <div class="front-content">
+
                                                                 <small class="badge">
                                                                     <%= product.category %>
                                                                 </small>
@@ -157,7 +169,18 @@ top: 27%;
                                                             </div>
                                                         </div>
                                                         <div class="front">
-
+                                                        <% let isBestSeller = false; %>
+                                                        <% for(let bestSeller of bestSellerProducts) { %>
+                                                            <% if(bestSeller.product && bestSeller.product._id.toString() === product._id.toString()) { %>
+                                                                <% isBestSeller = true; %>
+                                                                <% break; %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if(isBestSeller) { %>
+                                                           <div class="box">
+                                                        <div class="ribbon red"><span>Best Seller</span></div>
+                                                        </div>
+                                                        <% } %>
                                                             <div class="img">
                                                                 <div class="circle">
                                                                 </div>
@@ -239,7 +262,18 @@ top: 27%;
                                                             </div>
                                                         </div>
                                                         <div class="front">
-
+  <% let isBestSeller = false; %>
+                                                        <% for(let bestSeller of bestSellerProducts) { %>
+                                                            <% if(bestSeller.product && bestSeller.product._id.toString() === product._id.toString()) { %>
+                                                                <% isBestSeller = true; %>
+                                                                <% break; %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if(isBestSeller) { %>
+                                                           <div class="box">
+                                                        <div class="ribbon red"><span>Best Seller</span></div>
+                                                        </div>
+                                                        <% } %>
                                                             <div class="img">
                                                                 <div class="circle">
                                                                 </div>
@@ -322,7 +356,18 @@ top: 27%;
                                                             </div>
                                                         </div>
                                                         <div class="front">
-
+  <% let isBestSeller = false; %>
+                                                        <% for(let bestSeller of bestSellerProducts) { %>
+                                                            <% if(bestSeller.product && bestSeller.product._id.toString() === product._id.toString()) { %>
+                                                                <% isBestSeller = true; %>
+                                                                <% break; %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if(isBestSeller) { %>
+                                                           <div class="box">
+                                                        <div class="ribbon red"><span>Best Seller</span></div>
+                                                        </div>
+                                                        <% } %>
                                                             <div class="img">
                                                                 <div class="circle">
                                                                 </div>
@@ -402,6 +447,18 @@ top: 27%;
                                                             </div>
                                                         </div>
                                                         <div class="front">
+  <% let isBestSeller = false; %>
+                                                        <% for(let bestSeller of bestSellerProducts) { %>
+                                                            <% if(bestSeller.product && bestSeller.product._id.toString() === product._id.toString()) { %>
+                                                                <% isBestSeller = true; %>
+                                                                <% break; %>
+                                                            <% } %>
+                                                        <% } %>
+                                                        <% if(isBestSeller) { %>
+                                                           <div class="box">
+                                                        <div class="ribbon red"><span>Best Seller</span></div>
+                                                        </div>
+                                                        <% } %>
                                                             <div class="img">
                                                                 <div class="circle"></div>
                                                                 <div class="circle" id="right"></div>
@@ -449,7 +506,9 @@ top: 27%;
                     </div>
 </div>
 </div>
+
     </section>
+<%- include('../partials/footer') %>
 <script>
 const projectSection = document.querySelector('.container');
 

@@ -38,8 +38,6 @@ router.post('/order',isLoggedIn,  catchAsync(async (req, res) => {
 
         const receiptNumber = uuidv4().split('-').pop();
 
-
-        console.log(receiptNumber)
         const newOrder = new Order({
             userID: req.user._id,
             products: orderProducts,
@@ -68,8 +66,6 @@ router.get('/order/:id',isLoggedIn, catchAsync(async (req, res) => {
     }
 });
 
-
-
         const orderProducts = order.products.map((item) => {
             const product = item.product;
             const productTotalPrice = item.quantity * product.price;
@@ -84,7 +80,6 @@ router.get('/order/:id',isLoggedIn, catchAsync(async (req, res) => {
 
             };
         });
-console.log('87', orderProducts)
 
         const totalPrice = orderProducts.reduce((total, product) => total + product.productTotalPrice, 0);
 

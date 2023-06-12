@@ -41,6 +41,10 @@ flex-direction: column;
     table-layout: fixed;
 }
 
+.weekly th{
+height: 5%;
+}
+
 .weekly td{
 margin-left: 1rem;
 }
@@ -48,6 +52,7 @@ margin-left: 1rem;
     .calendar th {
       color: #5f4f44;
       text-align: center;
+height: 5%;
       padding: 10px;
       border: 0.5px solid #f0f0f0;
     }

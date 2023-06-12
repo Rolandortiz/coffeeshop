@@ -2,21 +2,22 @@
     padding: 0;
     border: 0;
 }
+body{
+font-family: 'Italiana', serif;
+
+}
 .container-md h1{
 font-size: 45px;
-font-weight: 600;
-font-family: "Courier New";
-color: rgb(251, 146, 84);
+font-weight: 400;
+font-family: 'Italiana', serif;
+color: #F3DBB2;
  animation: text-shadow-animation 2s infinite;
 transition: text-shadow 2 ease-in-out;
 margin-left: 2rem;
 }
 .container-md h2{
-font-family: "Courier New";
-color: rgb(251, 146, 84);
- animation: text-shadow-animation 2s infinite;
-transition: text-shadow 2 ease-in-out;
-margin-left: 1rem;
+font-family: 'Italiana', serif;
+color: #F3DBB2;
 
 }
 
@@ -33,16 +34,15 @@ margin-left: 1rem;
 .text-right p {
   font-size: 20px;
   font-weight: 700;
-  color: rgb(255, 186, 143);
+  color: #F3DBB2;
   margin-left: 2rem;
-  font-family: "Courier New";
   animation: text-shadow-animation 2s infinite;
 transition: text-shadow 2 ease-in-out;
 }
 
 @keyframes text-shadow-animation {
   0%, 50% {
-    text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 174, 0), 0 0 0.2em rgba(255, 136, 0, 0.692);
+    text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 216, 132), 0 0 0.2em rgba(255, 136, 0, 0.692);
   }
   25%, 75% {
     text-shadow: none;
@@ -57,19 +57,21 @@ border-radius: 10px;
 box-shadow: 10px 5px 5px rgba(255, 136, 0, 0.692);
 width: 100%;
 height: 300px;
+font-family: 'Italiana', serif;
 }
 
 .nav-item a{
-color: rgb(251, 146, 84) !important;
-font-family: "Courier New" !important;
- text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 174, 0), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
+color: #F3DBB2 !important;
+ text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 216, 132), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
 transition: .5s ease;
+font-family: 'Italiana', serif;
 }
 
 .nav-item button{
-color: rgb(251, 146, 84) !important;
-font-family: "Courier New" !important;
- text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 174, 0), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
+color: #F3DBB2 !important;
+ text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 216, 132), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
+font-family: 'Italiana', serif;
+border: none !important;
 }
 
 .nav-item:hover a{
@@ -80,4 +82,5 @@ transform: scale(1.1);
 text-shadow: none !important;
 transform: scale(1.1);
 border: none !important;
+
 }

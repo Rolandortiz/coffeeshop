@@ -4,7 +4,6 @@ var checkoutButton = document.getElementById('checkout-button');
     checkoutButton.addEventListener('click', function (event) {
  const button = event.target;
             const orderId = button.getAttribute('data-product-id');
-console.log(orderId)
 var requestBody = {
         orderId: orderId,
     };
@@ -125,7 +124,6 @@ method: "POST",
                     })
                         .then((response) => response.json())
                         .then((order_details) => {
-                            console.log(order_details);
                             let intent_object = intent === "authorize" ? "authorizations" : "captures";
                             alerts.innerHTML = `<div class='ms-alert ms-action'>Thank you ${order_details.payer.name.given_name} ${order_details.payer.name.surname} for your payment of ${order_details.purchase_units[0].payments[intent_object][0].amount.value} ${order_details.purchase_units[0].payments[intent_object][0].amount.currency_code}!</div>`;
                             paypal_buttons.close();

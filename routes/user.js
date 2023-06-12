@@ -267,7 +267,7 @@ router.post('/forgot-password', catchAsync(async (req, res, next) => {
     });
 
     req.flash('success', 'An email has been sent to your registered email address with instructions on how to reset your password.');
-    res.redirect('/forgot-password');
+    res.redirect('/login');
 }));
 
 
@@ -306,7 +306,8 @@ router.post('/reset-password/:id/:token', catchAsync(async (req, res) => {
     if (!passwordRegix.test(password)) {
         req.flash('error', 'It must contain atleast 1 Uppercase 1 number');
         return res.redirect(`/reset-password/${user._id}/${token}`)
-    } const confirmPassword = req.body['confirm-password'];
+    }
+const confirmPassword = req.body['confirm-password'];
 
     if (password !== confirmPassword) {
         req.flash('error', 'Password do not match');

@@ -1,29 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('click', function (event) {
-        if (event.target && event.target.classList.contains('add-to-cart-button')) {
-            event.preventDefault();
-            const button = event.target;
-            const productId = button.getAttribute('data-product-id');
-            fetch(`/products/${productId}/cart`, {
-                method: 'POST',
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log('Product added to cart successfully');
+  document.addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('add-to-cart-button')) {
+      event.preventDefault();
+      const button = event.target;
+      const productId = button.getAttribute('data-product-id');
+      fetch(`/products/${productId}/cart`, {
+        method: 'POST',
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Product added to cart successfully');
 
-                    if (
-                        data.images &&
-                        data.category &&
-                        data.title &&
-                        data.price &&
-                        data.quantity &&
-                        data.productTotalPrice
-                    ) {
-
-                        const newProductHTML = `
+          if (
+            data.images &&
+            data.category &&
+            data.title &&
+            data.price &&
+            data.quantity &&
+            data.productTotalPrice
+          ) {
+            const newProductHTML = `
               <div class="row mb-4 d-flex justify-content-between align-items-center">
                 <div class="col-md-2 col-lg-2 col-xl-2">
-                  <img src="${data.images}" class="img-fluid rounded-3" alt="">
+                  <img src="${data.images[0]}" class="img-fluid rounded-3" alt="">
                 </div>
                 <div class="col-md-3 col-lg-3 col-xl-3 title">
                   <p class="text-muted">${data.category}</p>
@@ -53,35 +52,44 @@ document.addEventListener('DOMContentLoaded', function () {
               </div>
               <hr class="border my-4">
             `;
-                        const cartContainer = document.querySelector('.product');
-                        const emptyCartMessage = document.querySelector('.cart-empty');
-                        if (emptyCartMessage) {
-                            emptyCartMessage.remove();
-                        }
-                        cartContainer.insertAdjacentHTML('beforebegin', newProductHTML);
+            const cartContainer = document.querySelector('.product');
+            const emptyCartMessage = document.querySelector('.cart-empty');
+            if (emptyCartMessage) {
+              emptyCartMessage.remove();
+            }
+            cartContainer.insertAdjacentHTML('afterbegin', newProductHTML);
 
+            const subTotalElement = document.getElementById('subTotal');
+            const currentTotalPrice = parseFloat(subTotalElement.textContent.replace('Total Price: $', ''));
+            const newTotalPrice = currentTotalPrice + data.productTotalPrice;
+            subTotalElement.textContent = `Total Price: $${newTotalPrice.toFixed(2)}`;
 
-                        const subTotalElement = document.getElementById('subTotal');
-                        const currentTotalPrice = parseFloat(subTotalElement.textContent.replace('Total Price: $', ''));
-                        const newTotalPrice = currentTotalPrice + data.productTotalPrice;
-                        subTotalElement.textContent = `Total Price: $${newTotalPrice.toFixed(2)}`;
- const cartCountElement = document.querySelector('.notif');
+            const cartCountElement = document.querySelector('.notif');
             if (cartCountElement) {
               const currentCount = parseInt(cartCountElement.textContent);
-              cartCountElement.textContent = (currentCount + 1).toString();
+              const newCount = isNaN(currentCount) ? 1 : currentCount + 1;
+              cartCountElement.textContent = newCount.toString();
+            } else {
+              const newCount = 1;
+              const cartCountContainer = document.querySelector('.cart-count-container');
+              const newCartCountElement = document.createElement('span');
+              newCartCountElement.className = 'notif';
+              newCartCountElement.textContent = newCount.toString();
+              cartCountContainer.appendChild(newCartCountElement);
             }
-
-                    } else {
-                        console.error('Invalid response format:', data);
-                    }
-updateCart()
-                })
-                .catch((error) => {
-                    console.error('An error occurred while adding the product to the cart:', error);
-                });
-        }
-    });
+ updateCart();
+          } else {
+            console.error('Invalid response format:', data);
+          }
+        })
+        .catch((error) => {
+          console.error('An error occurred while adding the product to the cart:', error);
+        });
+    }
+  });
 });
+
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -205,7 +213,6 @@ deleteForms.forEach((form) => {
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     const productId= form.getAttribute('data-product-id');
-console.log(productId)
     deleteCart(event, productId);
   });
 });

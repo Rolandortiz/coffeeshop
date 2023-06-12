@@ -27,6 +27,7 @@ const orderRoute = require('./routes/order')
 const cartRoute = require('./routes/cart')
 const paidRoute = require('./routes/paid')
 const adminRoute = require('./routes/admin')
+const reviewRoute = require('./routes/review')
 const scheduleRoute = require('./routes/schedules')
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
@@ -291,7 +292,7 @@ app.post('/payment', async (req, res) => {
     const orderId = req.body.orderId;
 
     const order = await Order.findById(orderId);
-    console.log(order);
+
 
     if (!order) {
         return res.status(404).send('Order not found.');
@@ -430,6 +431,7 @@ app.use('/', cartRoute);
 app.use('/', adminRoute);
 app.use('/', paidRoute);
 app.use('/', scheduleRoute);
+app.use('/', reviewRoute);
 
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
