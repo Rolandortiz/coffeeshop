@@ -37,7 +37,7 @@ const paypal = require('@paypal/checkout-server-sdk');
 const axios = require('axios');
 const environment = process.env.ENVIRONMENT || 'sandbox'
 const endpoint_url = environment === 'sandbox'? 'https://api-m.sandbox.paypal.com' :'https://api-m.paypal.com';
-
+const cors = require('cors')
 const { isAdmin, isLoggedIn, isOwner, cartMiddleware } = require('./middleware');
 
 // models
@@ -76,6 +76,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 const secret = process.env.SESSION_SECRET
 
+app.use(cors(
+{
+origin:"https://coffee-shop-g3e6.onrender.com"
+}
+
+))
 const sessionConfig = {
     secret,
     name: '_rolandOrtiz',
@@ -95,6 +101,7 @@ const sessionConfig = {
 const frameSrcUrls=[
 "https://js.stripe.com/",
 "https://www.sandbox.paypal.com/",
+"https://www.facebook.com",
 
 
 ]
@@ -122,6 +129,7 @@ const scriptSrcUrls = [
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
     "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js",
+
 
 
 ];
@@ -157,8 +165,12 @@ const connectSrcUrls = [
     "https://www.sandbox.paypal.com/xoplatform/logger/api/logger",
  "https://api2.amplitude.com/",
  "https://www.facebook.com/plugins/customer_chat/SDK",
- "https://*.facebook.com",
+ "https://connect.facebook.net",
  "https://socialplugin.facebook.net/new_domain_gating/",
+ "https://www.facebook.com/plugins/customer_chat/SDK/",
+ "https://www.facebook.com/plugins/customer_chat/facade/",
+
+
 
 
 ];
@@ -184,7 +196,7 @@ app.use(
             defaultSrc: [],
             formAction: ["'self'"],
             frameSrc:["'self'","'unsafe-inline'",...frameSrcUrls],
-            connectSrc: ["'self'","https://www.facebook.com", ...connectSrcUrls],
+            connectSrc: ["'self'", ...connectSrcUrls],
             scriptSrc: ["'unsafe-inline'", "'self'",...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
             workerSrc: ["'self'", "blob:"],

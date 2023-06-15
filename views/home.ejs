@@ -659,17 +659,19 @@
 <!-- Your Chat plugin code -->
 <div id="fb-customer-chat" class="fb-customerchat"></div>
 
-    <script>
-      var chatbox = document.getElementById('fb-customer-chat');
-      chatbox.setAttribute("page_id", "542940265772477");
-      chatbox.setAttribute("attribution", "biz_inbox");
-    </script>
+
 
     <!-- Your SDK code -->
 
 <%- include('./partials/footer') %>
 <%- include('./partials/modals/home-modal') %>
 </div>
+
+ <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "542940265772477");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
  <script>
       window.fbAsyncInit = function() {
         FB.init({
