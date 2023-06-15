@@ -101,54 +101,58 @@ module.exports.sendEmailReg = async (req, res, next) => {
 };
 
 
+
 module.exports.cartMiddleware = async (req, res, next) => {
-    try {
+  try {
+    let userID;
+    let cart;
 
-        let userID;
-        let cart;
-
-        if (req.user) {
-            userID = req.user._id;
-            cart = await Cart.findOne({ userID }).populate('products.product');
-        } else {
-
-            userID = req.session.sessionID;
-            cart = await Cart.findOne({ userID }).populate('products.product');
-        }
-
-        if (!cart) {
-            cart = new Cart({ userID, products: [] });
-            await cart.save();
-        }
-
-        let totalPrice = 0;
-        const cartProducts = cart.products.map((item) => {
-            const productTotalPrice = item.quantity * item.product.price;
-            totalPrice += productTotalPrice;
-            return {
-                product: item.product._id,
-                quantity: item.quantity,
-                title: item.product.title,
-                price: item.product.price,
-                category: item.product.category,
-                images: item.product.images,
-                productTotalPrice,
-
-            };
-
-
-        });
-
-        cart.totalPrice = totalPrice.toFixed(2); // Set the total price of the cart
-        await cart.save();
-
-        req.cart = { cartProducts, cart, totalPrice };
-        next();
-    } catch (error) {
-        console.error(error);
-        req.flash('error', 'An error occurred');
-        res.redirect('/cart');
+    if (req.user) {
+      userID = req.user._id;
+      cart = await Cart.findOne({ userID }).populate('products.product');
+    } else {
+      userID = req.session.sessionID;
+      cart = await Cart.findOne({ userID }).populate('products.product');
     }
+
+    if (!cart) {
+      cart = new Cart({ userID, products: [] });
+      await cart.save();
+    }
+
+    let totalPrice = 0;
+    const updatedProducts = [];
+
+    for (const item of cart.products) {
+      const product = await Product.findById(item.product);
+
+      if (product) {
+        const productTotalPrice = item.quantity * product.price;
+        totalPrice += productTotalPrice;
+
+        updatedProducts.push({
+          product: product._id,
+          quantity: item.quantity,
+          title: product.title,
+          price: product.price,
+          category: product.category,
+          images: product.images,
+          productTotalPrice,
+        });
+      }
+    }
+
+    cart.products = updatedProducts;
+    cart.totalPrice = totalPrice.toFixed(2); // Set the total price of the cart
+    await cart.save();
+
+    req.cart = { cartProducts: updatedProducts, cart, totalPrice };
+    next();
+  } catch (error) {
+    console.error(error);
+    req.flash('error', 'An error occurred');
+    res.redirect('/cart');
+  }
 };
 
 // CARTS

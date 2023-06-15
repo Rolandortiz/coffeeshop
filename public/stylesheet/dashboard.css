@@ -5,6 +5,10 @@
             border-radius: 15px;
             box-shadow: 10px 5px 5px rgb(77, 77, 77);
         }
+.card-chart #monthlyChart{
+width: 100%;
+height: 50%;
+}
 
         .sales-container {
             width: 18%;

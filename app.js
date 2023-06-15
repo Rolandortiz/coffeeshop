@@ -1,6 +1,8 @@
 // connectsions
 const dotenv = require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
 const app = express();
 const path = require('path')
 const mongoose = require('mongoose')
@@ -13,9 +15,11 @@ const methodOverride = require('method-override')
 const session = require('express-session')
 const catchAsync = require('./utils/catchasync');
 const Review = require('./model/review')
-const { v4: uuidv4 } = require('uuid');
 const nodemailer = require('nodemailer')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
+const server = http.createServer(app);
+const io = socketIO(server);
 
 
 const helmet = require('helmet')
@@ -33,18 +37,15 @@ const reviewRoute = require('./routes/review')
 const scheduleRoute = require('./routes/schedules')
 const FacebookStrategy = require('passport-facebook').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const paypal = require('@paypal/checkout-server-sdk');
-const axios = require('axios');
+
 const environment = process.env.ENVIRONMENT || 'sandbox'
 const endpoint_url = environment === 'sandbox'? 'https://api-m.sandbox.paypal.com' :'https://api-m.paypal.com';
 const cors = require('cors')
-const { isAdmin, isLoggedIn, isOwner, cartMiddleware } = require('./middleware');
 
 // models
 const User = require('./model/user')
-const Paid = require('./model/paid')
 const Order = require('./model/order')
-const Product = require('./model/product')
+
 // Data base
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/paulamedCafe'
 
@@ -56,21 +57,14 @@ db.once("open", () => {
     console.log("Database Connected");
 })
 
-//session
-// const sessionConfig = {
-//     secret: "secretla",
-//     name: '_pmCafe',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//         httpOnly: true,
-//         // secure:true,
-//         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-//         maxAge: 1000 * 60 * 60 * 24 * 7
-//     }
-// }
+// socket
+io.on('connection', (socket) => {
+socket.on('send-chat-message', message =>{
+ socket.broadcast.emit('chat-message', message)
+})
+});
 
-// app.uses
+
 app.use(mongoSanitize());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
@@ -78,7 +72,7 @@ const secret = process.env.SESSION_SECRET
 
 app.use(cors(
 {
-origin:"https://coffee-shop-g3e6.onrender.com"
+origin:"http://localhost:3000"
 }
 
 ))
@@ -124,11 +118,11 @@ const scriptSrcUrls = [
     "https://www.paypal.com/sdk/js",
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js",
     "https://api2.amplitude.com/",
-    "https://unpkg.com/@barba/core",
     "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js",
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
-    "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js",
+    "https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js",
+
 
 
 
@@ -164,11 +158,7 @@ const connectSrcUrls = [
     "https://ka-f.fontawesome.com/",
     "https://www.sandbox.paypal.com/xoplatform/logger/api/logger",
  "https://api2.amplitude.com/",
- "https://www.facebook.com/plugins/customer_chat/SDK",
- "https://connect.facebook.net",
- "https://socialplugin.facebook.net/new_domain_gating/",
- "https://www.facebook.com/plugins/customer_chat/SDK/",
- "https://www.facebook.com/plugins/customer_chat/facade/",
+
 
 
 
@@ -304,23 +294,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 app.get('/debug',  async(req, res) => {
-  const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 3;
-    const options = {
-        sort: { createdAt: 'desc' },
-        page: page,
-        limit: pageSize,
-        populate:{path: 'owner'}
-    };
-    const reviews = await Review.paginate({}, options);
-const { hasPrevPage, prevPage, totalPages, hasNextPage, nextPage } = reviews;
-console.log(hasPrevPage)
-console.log(prevPage)
-console.log(totalPages)
-console.log(hasNextPage)
-console.log(nextPage)
-  res.send(reviews);
+  res.render('chat')
 });
+
 
 
 
@@ -569,6 +545,8 @@ app.use((err, req, res, next) => {
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+

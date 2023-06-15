@@ -148,7 +148,6 @@ const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
 router.delete('/product/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Product.findByIdAndDelete(id);
-
     res.redirect('/product-dashboard');
 }))
 

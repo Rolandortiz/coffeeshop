@@ -10,14 +10,14 @@ font-family: 'Italiana', serif;
 font-size: 45px;
 font-weight: 400;
 font-family: 'Italiana', serif;
-color: #F3DBB2;
+color: #3b3b3b;
  animation: text-shadow-animation 2s infinite;
 transition: text-shadow 2 ease-in-out;
 margin-left: 2rem;
 }
 .container-md h2{
 font-family: 'Italiana', serif;
-color: #F3DBB2;
+color: #3b3b3b;
 
 }
 
