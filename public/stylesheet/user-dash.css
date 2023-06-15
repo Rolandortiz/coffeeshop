@@ -61,16 +61,16 @@ font-family: 'Italiana', serif;
 }
 
 .nav-item a{
-color: #F3DBB2 !important;
+color: #b59867 !important;
  text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 216, 132), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
 transition: .5s ease;
-font-family: 'Italiana', serif;
+
 }
 
 .nav-item button{
-color: #F3DBB2 !important;
+color: #b59867 !important;
  text-shadow: 1px 1px 1px rgb(255, 255, 255), 0 0 1em rgb(255, 216, 132), 0 0 0.2em rgba(255, 136, 0, 0.692) !important;
-font-family: 'Italiana', serif;
+
 border: none !important;
 }
 

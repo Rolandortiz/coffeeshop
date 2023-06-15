@@ -11,8 +11,10 @@ const LocalStrategy = require('passport-local');
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
 const session = require('express-session')
-
+const catchAsync = require('./utils/catchasync');
+const Review = require('./model/review')
 const { v4: uuidv4 } = require('uuid');
+const nodemailer = require('nodemailer')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 const cors = require('cors')
@@ -101,6 +103,7 @@ const scriptSrcUrls = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
 "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
+"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css",
     "https://cdn.ckeditor.com/",
     "https://cdnjs.cloudflare.com/",
     "https://ionic.io/ionicons/",
@@ -115,6 +118,10 @@ const scriptSrcUrls = [
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js",
     "https://api2.amplitude.com/",
     "https://unpkg.com/@barba/core",
+    "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js",
+    "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",
+    "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
+
 
 
 
@@ -124,6 +131,7 @@ const styleSrcUrls = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
 "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
+"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css",
     "https://getbootstrap.com/",
     "https://use.fontawesome.com/",
     "https://cdnjs.cloudflare.com/",
@@ -133,7 +141,7 @@ const styleSrcUrls = [
     "https://fonts.googleapis.com/",
     "https://use.fontawesome.com/",
     "https://fontawesome.com",
- "https://api2.amplitude.com/",
+    "https://api2.amplitude.com/",
 
 
 
@@ -143,6 +151,7 @@ const connectSrcUrls = [
  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
 "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
+"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css",
     "https://ionic.io/ionicons/",
     "https://unpkg.com/",
     "https://fontawesome.com",
@@ -156,19 +165,23 @@ const fontSrcUrls = [
  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js",
 "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
+"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css",
     "https://fonts.gstatic.com/",
     "https://cdnjs.cloudflare.com/",
     "https://use.fontawesome.com/",
     "https://fontawesome.com",
     "https://ka-f.fontawesome.com/",
  "https://api2.amplitude.com/",
+ "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/fonts/bootstrap-icons.woff",
+ "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/fonts/bootstrap-icons.woff2",
+
 ];
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
             defaultSrc: [],
             formAction: ["'self'"],
-            frameSrc:["'self'",...frameSrcUrls],
+            frameSrc:["'self'","'unsafe-inline'",...frameSrcUrls],
             connectSrc: ["'self'", ...connectSrcUrls],
             scriptSrc: ["'unsafe-inline'", "'self'",...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
@@ -276,15 +289,32 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 
-app.get('/debug',cartMiddleware,  async(req, res) => {
-   console.log(req.cart.cartProducts);
-  res.send('Cart products logged in the console');
+app.get('/debug',  async(req, res) => {
+  const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 3;
+    const options = {
+        sort: { createdAt: 'desc' },
+        page: page,
+        limit: pageSize,
+        populate:{path: 'owner'}
+    };
+    const reviews = await Review.paginate({}, options);
+const { hasPrevPage, prevPage, totalPages, hasNextPage, nextPage } = reviews;
+console.log(hasPrevPage)
+console.log(prevPage)
+console.log(totalPages)
+console.log(hasNextPage)
+console.log(nextPage)
+  res.send(reviews);
 });
 
 
 
 app.get('/privacypolicy', (req, res) => {
     res.render('partials/PrivacyPolicy')
+})
+app.get('/terms', (req, res) => {
+    res.render('partials/terms')
 })
 
 
@@ -325,6 +355,70 @@ app.post('/payment', async (req, res) => {
 
     res.json({ id: session.id });
 });
+
+app.post('/send', catchAsync(async (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const subject = req.body.subject;
+    const message = req.body.message;
+
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+             user: process.env.GMAIL_EMAIL,
+            pass: process.env.GMAIL_EMAIL_PASSWORD,
+        },
+    });
+
+    // create a mail options object that defines the email content
+    const mailOptions = {
+        from: `${email}`,
+        to: process.env.GMAIL_EMAIL,
+        subject: `New contact form submission: ${subject}`,
+        html: `
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message}</p>
+    `
+    };
+
+    // send the email using the transporter object
+    await transporter.sendMail(mailOptions);
+    const redirectUrl = req.session.gobackTo || '/';
+    req.flash('success', 'Thank you for your message! We will get back to you soon.');
+    res.redirect(redirectUrl);
+}));
+
+
+app.post('/subscribe', catchAsync(async (req, res) => {
+    const email = req.body.email;
+
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+             user: process.env.GMAIL_EMAIL,
+            pass: process.env.GMAIL_EMAIL_PASSWORD,
+        },
+    });
+
+    // create a mail options object that defines the email content
+    const mailOptions = {
+        from: `${email}`,
+        to: process.env.GMAIL_EMAIL,
+        html: `
+      <p><strong>New Subscriber:</strong> ${email}</p>
+
+    `
+    };
+
+    // send the email using the transporter object
+    await transporter.sendMail(mailOptions);
+ const redirectUrl = req.headers.referer || '/';
+    req.flash('success', 'Thank you for subscribing! We will send you and update.');
+    res.redirect(redirectUrl);
+}));
+
 
 
 const client_id = process.env.PAYPAL_CLIENT_ID;
@@ -420,7 +514,10 @@ app.get('/cancel', (req, res) => {
 })
 
 
-
+app.get('/about', async(req,res)=>{
+const reviews = await Review.find({}).populate('owner').populate('likes')
+res.render('about', {reviews})
+})
 
 
 app.use('/', homeRoute);

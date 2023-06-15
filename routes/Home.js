@@ -6,12 +6,28 @@ const Product = require('../model/product');
 const Review = require('../model/review');
 const Paid = require('../model/paid');
 const moment = require('moment');
-const review = require('../model/review');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 
 
 router.get('/', cartMiddleware,catchAsync(async (req, res) => {
-const reviews = await Review.find({}).populate('owner')
+const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 3;
+    const options = {
+        sort: { createdAt: 'desc' },
+        page: page,
+        limit: pageSize,
+        populate:{path: 'owner'}
+    };
+    const reviews = await Review.paginate({}, options);
+const { hasPrevPage, prevPage, totalPages, hasNextPage, nextPage } = reviews;
+console.log(hasPrevPage)
+console.log(prevPage)
+console.log(totalPages)
+console.log(hasNextPage)
+console.log(nextPage)
+
+
 const paidOrders = await Paid.find().populate('products.product');
     const products = await Product.find({});
     const { cartProducts, cart, totalPrice } = req.cart;
@@ -68,7 +84,11 @@ paidOrders.forEach(order => {
             });
 
 
-    res.render('home', { cartProducts, cart, totalPrice, products, bestSellerProducts, reviews});
+    res.render('home', { cartProducts, cart, totalPrice, products, bestSellerProducts, reviews,hasPrevPage,
+    prevPage,
+    totalPages,
+    hasNextPage,
+    nextPage});
 
 }));
 

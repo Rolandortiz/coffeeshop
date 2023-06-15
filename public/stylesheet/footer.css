@@ -1,9 +1,6 @@
 .footer {
   width: 100%;
   height: 60vh;
-   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   font-family: 'Della Respira', serif;
   letter-spacing: 1px;
   position: relative;
@@ -11,7 +8,7 @@
 display: flex;
 justify-content: center;
 align-items: center;
-
+margin-top: 10rem;
 }
 .footer-wrapper{
 width: 100%;
@@ -24,7 +21,7 @@ border-radius: 70px 0 70px 0;
 }
 
 .footer-wrapper footer {
-  background: #F3DBB2;
+  background: #ffcd93;
   position: relative;
 height: 100%;
 border-radius: 70px 0 70px 0;
