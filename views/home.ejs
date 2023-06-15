@@ -590,8 +590,9 @@
       <div class="task" draggable="true">
         <div class="tags">
           <span class="tag"><%= review.owner.username %></span>
-            <small class="text-muted"><%= review.createdAt.toLocaleDateString() %></small>
-
+ <% if (review.createdAt) { %>
+    <small class="text-muted"><%= review.createdAt.toLocaleDateString() %></small>
+  <% } %>
         </div>
 
         <p class="text-center"><%= review.body %></p>
