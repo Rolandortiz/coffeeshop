@@ -652,54 +652,41 @@
 </div>
 </section>
 
+<!-- Messenger Chat Plugin Code -->
+   <!-- Messenger Chat plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat"></div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "542940265772477");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
 
 <%- include('./partials/footer') %>
 <%- include('./partials/modals/home-modal') %>
 </div>
+ <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v17.0'
+        });
+      };
 
-<script>
-$(document).ready(function() {
-  $(document).on('click', '.pagination-link', function(e) {
-  e.preventDefault(); // Prevent default anchor tag behavior
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
 
-  // Extract page and pageSize values from the clicked link's data attributes
-  var page = $(this).data('page');
-  var pageSize = $(this).data('pageSize');
-
-  // Perform AJAX request
-  $.ajax({
-    type: 'GET',
-    url: '/', // Replace with the URL of your homepage
-    data: { page, pageSize },
-    success: function(response) {
-      // Create a temporary element to extract the reviews section
-      var tempElement = $('<div>').html(response);
-
-      // Find the reviews section within the response HTML
-      var reviewSection = tempElement.find('#review-section');
-
-      // Update the reviews section on the page
-      $('#review-section').html(reviewSection.html());
-
-      // Update the URL using history API
-      const url = `?page=${page}&pageSize=${pageSize}`;
-      history.pushState(null, '', url);
-
-      // Scroll to the review section
-      $('html, body').animate({
-        scrollTop: $('#review-section').offset().top
-      }, 500);
-    },
-    error: function(error) {
-      // Handle the error
-      console.log(error);
-    }
-  });
-  });
-
-});
-
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="javascript/particles.js"></script>
     <script src="/javascript/home.js"></script>

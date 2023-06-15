@@ -17,7 +17,7 @@ const { v4: uuidv4 } = require('uuid');
 const nodemailer = require('nodemailer')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
-const cors = require('cors')
+
 const helmet = require('helmet')
 const MongoDBStore = require("connect-mongo");
 const mongoSanitize = require('express-mongo-sanitize');
@@ -121,9 +121,7 @@ const scriptSrcUrls = [
     "https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js",
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
-
-
-
+    "https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js",
 
 
 ];
@@ -158,6 +156,10 @@ const connectSrcUrls = [
     "https://ka-f.fontawesome.com/",
     "https://www.sandbox.paypal.com/xoplatform/logger/api/logger",
  "https://api2.amplitude.com/",
+ "https://www.facebook.com/plugins/customer_chat/SDK",
+ "https://*.facebook.com",
+ "https://socialplugin.facebook.net/new_domain_gating/",
+
 
 ];
 const fontSrcUrls = [
@@ -182,7 +184,7 @@ app.use(
             defaultSrc: [],
             formAction: ["'self'"],
             frameSrc:["'self'","'unsafe-inline'",...frameSrcUrls],
-            connectSrc: ["'self'", ...connectSrcUrls],
+            connectSrc: ["'self'","https://www.facebook.com", ...connectSrcUrls],
             scriptSrc: ["'unsafe-inline'", "'self'",...scriptSrcUrls],
             styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
             workerSrc: ["'self'", "blob:"],
@@ -217,7 +219,7 @@ app.use((req, res, next) => {
   res.setHeader('Set-Cookie', 'HttpOnly; Secure; SameSite=None');
   next();
 });
-app.use(cors())
+
 app.use(express.json())
 app.use(methodOverride('_method'));
 //passport
