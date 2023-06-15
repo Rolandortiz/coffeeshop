@@ -110,3 +110,35 @@ $(document).ready(function() {
     });
   });
 });
+
+
+
+// paginate
+
+$(document).ready(function() {
+  $(document).on('click', '.pagination-link', function(e) {
+  e.preventDefault();
+  var page = $(this).data('page');
+  var pageSize = $(this).data('pageSize');
+
+  $.ajax({
+    type: 'GET',
+    url: '/',
+    data: { page, pageSize },
+    success: function(response) {
+      var tempElement = $('<div>').html(response);
+      var reviewSection = tempElement.find('#review-section');
+      $('#review-section').html(reviewSection.html());
+      const url = `?page=${page}&pageSize=${pageSize}`;
+      history.pushState(null, '', url);
+      $('html, body').animate({
+        scrollTop: $('#review-section').offset().top
+      }, 500);
+    },
+    error: function(error) {
+      console.log(error);
+    }
+  });
+  });
+
+});

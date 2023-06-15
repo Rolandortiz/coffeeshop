@@ -21,12 +21,6 @@ const page = parseInt(req.query.page) || 1;
     };
     const reviews = await Review.paginate({}, options);
 const { hasPrevPage, prevPage, totalPages, hasNextPage, nextPage } = reviews;
-console.log(hasPrevPage)
-console.log(prevPage)
-console.log(totalPages)
-console.log(hasNextPage)
-console.log(nextPage)
-
 
 const paidOrders = await Paid.find().populate('products.product');
     const products = await Product.find({});

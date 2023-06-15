@@ -576,6 +576,9 @@
 </div>
 </div>
 </section>
+
+
+
 <section id="review-section" class="container-fluid">
 <h3 class="h1 text-center" style="color:#ffcd93;">Review from our valued customers</h3>
   <button type="button" class="btn btn-primary mx-auto" id="review-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -586,7 +589,7 @@
 <% var counter = 0 %>
     <% reviews.docs.slice().reverse().forEach(function(review){ %>
  <% if (counter <=4){ %>
-    <div class="col-lg-4 col-md-6 col-sm-12 mt-5 review" id="reviews">
+    <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mt-5 review" id="reviews">
       <div class="task" draggable="true">
         <div class="tags">
           <span class="tag"><%= review.owner.username %></span>
@@ -628,22 +631,22 @@
     <% }) %>
 <div class="container-fluid">
 <nav aria-label="Page navigation example">
-  <ul class="pagination">
+  <ul class="pagination pagination-sm justify-content-center">
     <% if (hasPrevPage) { %>
-      <li class="page-item">
-        <a class="page-link" href="?page=<%= prevPage %>&pageSize=<%= reviews.limit %>">Previous</a>
-      </li>
-    <% } %>
-    <% for (let i = 1; i <= totalPages; i++) { %>
-      <li class="page-item">
-        <a class="page-link" href="?page=<%= i %>&pageSize=<%= reviews.limit %>"><%= i %></a>
-      </li>
-    <% } %>
-    <% if (hasNextPage) { %>
-      <li class="page-item">
-        <a class="page-link" href="?page=<%= nextPage %>&pageSize=<%= reviews.limit %>">Next</a>
-      </li>
-    <% } %>
+  <li class="page-item">
+    <a class="page-link pagination-link" data-page="<%= prevPage %>" data-pageSize="<%= reviews.limit %>" href="#">Previous</a>
+  </li>
+<% } %>
+<% for (let i = 1; i <= totalPages; i++) { %>
+  <li class="page-item">
+    <a class="page-link pagination-link" data-page="<%= i %>" data-pageSize="<%= reviews.limit %>" href="#"><%= i %></a>
+  </li>
+<% } %>
+<% if (hasNextPage) { %>
+  <li class="page-item">
+    <a class="page-link pagination-link" data-page="<%= nextPage %>" data-pageSize="<%= reviews.limit %>" href="#">Next</a>
+  </li>
+<% } %>
   </ul>
 </nav>
 </div>
@@ -654,7 +657,49 @@
 <%- include('./partials/modals/home-modal') %>
 </div>
 
+<script>
+$(document).ready(function() {
+  $(document).on('click', '.pagination-link', function(e) {
+  e.preventDefault(); // Prevent default anchor tag behavior
 
+  // Extract page and pageSize values from the clicked link's data attributes
+  var page = $(this).data('page');
+  var pageSize = $(this).data('pageSize');
+
+  // Perform AJAX request
+  $.ajax({
+    type: 'GET',
+    url: '/', // Replace with the URL of your homepage
+    data: { page, pageSize },
+    success: function(response) {
+      // Create a temporary element to extract the reviews section
+      var tempElement = $('<div>').html(response);
+
+      // Find the reviews section within the response HTML
+      var reviewSection = tempElement.find('#review-section');
+
+      // Update the reviews section on the page
+      $('#review-section').html(reviewSection.html());
+
+      // Update the URL using history API
+      const url = `?page=${page}&pageSize=${pageSize}`;
+      history.pushState(null, '', url);
+
+      // Scroll to the review section
+      $('html, body').animate({
+        scrollTop: $('#review-section').offset().top
+      }, 500);
+    },
+    error: function(error) {
+      // Handle the error
+      console.log(error);
+    }
+  });
+  });
+
+});
+
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="javascript/particles.js"></script>
     <script src="/javascript/home.js"></script>

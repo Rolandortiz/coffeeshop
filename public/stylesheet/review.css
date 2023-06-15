@@ -151,3 +151,12 @@ font-size: 10px;
 
 
 
+.page-item .page-link{
+background: none !important;
+color: #fff4dc !important;
+border: none !important;
+}
+
+.page-item .active{
+background: #0274ff !important;
+}
