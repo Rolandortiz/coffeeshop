@@ -8,8 +8,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/00e4d50ddc.js" crossorigin="anonymous"></script>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Della+Respira&family=Italiana&family=Roboto+Mono:ital,wght@1,300&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/gsap.min.js"></script>
@@ -18,6 +19,7 @@
  <link rel="stylesheet" href="/stylesheet/about.css">
 </head>
 <body id="myPage">
+
 <%- include('./partials/flash') %>
 <nav class="navbar text-center">
 <div class="nav-container">
@@ -111,16 +113,16 @@ the cafe offers a cozy ambiance to enhance the overall experience.</p>
     <div class="carousel-inner py-5" role="listbox">
       <% for(let i = 0; i < reviews.length; i += 3) { %>
         <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-          <div class="row">
+          <div class="row item">
             <% for(let j = i; j < Math.min(i + 3, reviews.length); j++) { %>
-              <div class="col-sm-4">
-                <h4>"<%= reviews[j].body %>"<br>
+              <div class="col-sm-4 review-body">
+                <h4>"<%= reviews[j].body %>"</h4><br>
 <small><%= reviews[j].owner.username %></small>
 <br>
 
 <small><%= reviews[j].createdAt.toLocaleDateString() %></small>
 
-</h4>
+
               </div>
             <% } %>
           </div>
@@ -164,9 +166,19 @@ the cafe offers a cozy ambiance to enhance the overall experience.</p>
     </div>
   </div>
 </div>
+
+
 <%- include('./partials/footer') %>
 
-
+<div id="loading-container">
+<div class="loading-screen">
+   <div class="loader">
+  <span class="hour"></span>
+  <span class="min"></span>
+  <span class="circel"></span>
+</div>
+</div>
+</div>
 
 <script>
  $(document).ready(function() {
@@ -194,7 +206,15 @@ the cafe offers a cozy ambiance to enhance the overall experience.</p>
   });
 </script>
 <script src="/javascript/about.js"></script>
+<script>
+const loader = document.getElementById('loading-container');
 
+window.addEventListener('load', ()=>{
+setTimeout(() => {
+      loader.style.display = 'none';
+    }, 2000);
+})
+</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

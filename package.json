@@ -12,6 +12,7 @@
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",
     "axios": "^1.4.0",
+    "chat-engine": "^0.9.21",
     "cloudinary": "^1.37.0",
     "connect": "^3.7.0",
     "connect-flash": "^0.1.1",

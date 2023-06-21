@@ -17,7 +17,7 @@ const catchAsync = require('./utils/catchasync');
 const Review = require('./model/review')
 const nodemailer = require('nodemailer')
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-
+const axios = require('axios')
 const server = http.createServer(app);
 const io = socketIO(server);
 
@@ -44,7 +44,8 @@ const cors = require('cors')
 
 // models
 const User = require('./model/user')
-const Order = require('./model/order')
+const Order = require('./model/order');
+const { tr } = require('date-fns/locale');
 
 // Data base
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/paulamedCafe'
@@ -58,10 +59,32 @@ db.once("open", () => {
 })
 
 // socket
+// io.on('connection', (socket) => {
+//   let room;
+
+//   socket.on('join-room', (data) => {
+//     room = data.room;
+//     socket.join(room);
+//   });
+
+//   socket.on('send-chat-message', (message) => {
+//     io.to(room).emit('chat-message', message);
+//   });
+// });
 io.on('connection', (socket) => {
-socket.on('send-chat-message', message =>{
- socket.broadcast.emit('chat-message', message)
-})
+  let room;
+
+  socket.on('join-room', (data) => {
+  room = data.room;
+  socket.join(room);
+  socket.isAdmin = data.isAdmin; // Set the isAdmin value for the connected user
+});
+
+  socket.on('send-chat-message', (data) => {
+    const message = data.message;
+    const isAdmin = socket.isAdmin;
+    io.to(room).emit('chat-message', { message, isAdmin });
+  });
 });
 
 
@@ -96,8 +119,6 @@ const frameSrcUrls=[
 "https://js.stripe.com/",
 "https://www.sandbox.paypal.com/",
 "https://www.facebook.com",
-
-
 ]
 const scriptSrcUrls = [
     "https://stackpath.bootstrapcdn.com/",
@@ -122,10 +143,7 @@ const scriptSrcUrls = [
     "https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js",
     "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
     "https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js",
-
-
-
-
+    "https://unpkg.com/@barba/core",
 ];
 const styleSrcUrls = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
@@ -142,9 +160,6 @@ const styleSrcUrls = [
     "https://use.fontawesome.com/",
     "https://fontawesome.com",
     "https://api2.amplitude.com/",
-
-
-
 ];
 const connectSrcUrls = [
     "https://unsplash.com/",
@@ -158,11 +173,6 @@ const connectSrcUrls = [
     "https://ka-f.fontawesome.com/",
     "https://www.sandbox.paypal.com/xoplatform/logger/api/logger",
  "https://api2.amplitude.com/",
-
-
-
-
-
 ];
 const fontSrcUrls = [
     "https://ionic.io/ionicons/",
@@ -345,6 +355,8 @@ app.post('/payment', async (req, res) => {
 
     res.json({ id: session.id });
 });
+
+
 
 app.post('/send', catchAsync(async (req, res) => {
     const name = req.body.name;

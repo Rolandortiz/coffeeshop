@@ -3,7 +3,7 @@ const router = express.Router();
 const Product = require('../model/product')
 const Paid = require('../model/paid')
 const catchAsync = require('../utils/catchasync');
-const { isAdmin, isLoggedIn, isOwner, cartMiddleware } = require('../middleware');
+const { isAdmin, isLoggedIn, isOwner, cartMiddleware, } = require('../middleware');
 const { storage } = require('../cloudinary');
 const { cloudinary } = require('../cloudinary');
 const multer = require('multer');
@@ -14,7 +14,7 @@ const moment = require('moment');
 
 
 // all products
-router.get('/products', cartMiddleware, async (req, res) => {
+router.get('/products',cartMiddleware, async (req, res) => {
 const paidOrders = await Paid.find().populate('products.product');
     const products = await Product.find({});
     const { cartProducts, cart, totalPrice } = req.cart;
@@ -77,19 +77,21 @@ paidOrders.forEach(order => {
 
 
 // creating product
-router.post('/products',upload.array('image'), catchAsync(async (req, res) => {
-    try {
+router.post('/products', upload.array('image'), isLoggedIn, isAdmin, catchAsync(async (req, res) => {
+  try {
+    const product = new Product(req.body.product);
+    product.images = req.files.map(i => ({ url: i.path, filename: i.filename }));
+    const saveProduct = product.save();
 
-        const product = new Product(req.body.product)
-product.images = req.files.map(i => ({url: i.path, filename: i.filename}))
-        const saveProduct = product.save();
+    // Wait for the product to be saved, then redirect
+    await saveProduct;
 
-        res.redirect('/product-dashboard')
-    } catch (err) {
-        console.log(err.message);
-        res.redirect('/')
-    }
-}))
+    res.redirect('/product-dashboard');
+  } catch (err) {
+    console.log(err.message);
+    res.redirect('/');
+  }
+}));
 
 router.get('/products/new', (req, res) => {
 
@@ -97,7 +99,7 @@ router.get('/products/new', (req, res) => {
 })
 
 //show product
-router.get('/products/:id', cartMiddleware, catchAsync(async (req, res, next) => {
+router.get('/products/:id',isLoggedIn,isAdmin, cartMiddleware, catchAsync(async (req, res, next) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
@@ -113,7 +115,7 @@ router.get('/products/:id', cartMiddleware, catchAsync(async (req, res, next) =>
     }
 }))
 //edit form
-router.get('/products/:id/edit', async (req, res) => {
+router.get('/products/:id/edit',isLoggedIn,isAdmin,catchAsync( async (req, res) => {
     const { id } = req.params;
     const product = await Product.findById(id)
     if (!product) {
@@ -121,11 +123,11 @@ router.get('/products/:id/edit', async (req, res) => {
         res.redirect('/products')
     }
     res.render('product/edit', { product })
-})
+}))
 
 
 //update product
-router.put('/products/:id',upload.array('image'), catchAsync(async (req, res, next) => {
+router.put('/products/:id',upload.array('image'),isLoggedIn,isAdmin,catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findByIdAndUpdate(id, {...req.body.product});
 const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));

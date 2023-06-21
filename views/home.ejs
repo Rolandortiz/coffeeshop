@@ -587,7 +587,7 @@
 
   <div class="ms-4 row">
 <% var counter = 0 %>
-    <% reviews.docs.slice().reverse().forEach(function(review){ %>
+ <% reviews.docs.forEach(function(review){ %>
  <% if (counter <=4){ %>
     <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mt-5 review" id="reviews">
       <div class="task" draggable="true">

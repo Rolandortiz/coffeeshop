@@ -11,7 +11,7 @@ router.post('/review', isLoggedIn,catchAsync(async (req, res) => {
     review.owner = req.user._id;
     await review.save();
     req.flash('success', 'Created new review!');
-    res.redirect(`/`);
+    res.redirect(`/#review-section`);
 }))
 
 

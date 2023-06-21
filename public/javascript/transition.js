@@ -1,6 +1,6 @@
 $(document).ready(function() {
   function delay(n) {
-    n = n || 2000;
+    n = n || 4000;
     return new Promise((done) => {
       setTimeout(() => {
         done();

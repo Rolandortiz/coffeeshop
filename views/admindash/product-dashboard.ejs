@@ -17,13 +17,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Della+Respira&family=Italiana&family=Roboto+Mono:ital,wght@1,300&display=swap" rel="stylesheet">
+
 </head>
 <%- include('../partials/flash') %>
 <%- include('../partials/sidebar') %>
 <body data-barba="wrapper">
 <div class="loading-container">
 <div class="loading-screen">
- <div data-glitch="Loading..." class="glitch">Loading...</div>
+ <div id="load">
+  <div>G</div>
+  <div>N</div>
+  <div>I</div>
+  <div>D</div>
+  <div>A</div>
+  <div>O</div>
+  <div>L</div>
+</div>
 </div>
 </div>
 
@@ -115,12 +124,15 @@
         </div>
 
 
+
         </div>
 
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
 <%- include('../partials/modals/product_modal') %>
+
+
 <script>
 gsap.from(".container-md", {
 duration: 1,

@@ -55,11 +55,11 @@ emoji_food_beverage
 
                 <!-- Brand -->
                 <a class="navbar-brand" href="/">
-                    <img src="images/coffee-logo.png" height="50" alt="MDB Logo" loading="lazy" />
+                    <img src="/images/pmstlogo.png" height="50" alt="MDB Logo" loading="lazy" />
                 </a>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" style="list-style: none;">
                         <a class="nav-link dropdown-toggle hidden-arrow d-flex align-items-center" href="#"
-                            id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
 <% if (currentUser && currentUser.images && currentUser.images.length > 0) { %>
   <img src="<%= currentUser.images[0].url %>" alt="cafe" width="22" height="22" class="rounded-circle">
 <% } else { %>

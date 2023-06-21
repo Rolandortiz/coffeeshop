@@ -103,9 +103,12 @@ box-shadow: 15px 7px 7px rgb(136, 136, 136);
     font-size: 19px;
     line-height: 1.375em;
     font-weight: 400;
-    font-style: italic;
-    margin: 70px 0;
+  font-family: 'Roboto Mono', monospace;
   }
+
+.item small{
+font-family: 'Italiana', serif
+}
   .item span {
     font-style: normal;
   }
@@ -212,3 +215,66 @@ width: 100%;
       font-size: 150px;
     }
   }
+
+
+
+#loading-container{
+  width: 100%;
+  height: 100vh;
+  background-color: #ffcd93;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.loader {
+  width: 65px;
+  height: 65px;
+  border: 8px solid #ee9b00a6;
+  border-radius: 50px;
+  position: relative;
+}
+
+.loader span {
+  display: block;
+  background: #ee9b00;
+}
+
+.loader .hour,
+.loader .min {
+  width: 6px;
+  height: 22px;
+  border-radius: 50px;
+  position: absolute;
+  top: 24.5px;
+  left: 21px;
+  animation: load9243 1.2s linear infinite;
+  transform-origin: top center;
+}
+
+.loader .min {
+  height: 17px;
+  animation: load9243 4s linear infinite;
+}
+
+.loader .circel {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  position: absolute;
+  top: 19px;
+  left: 19px;
+}
+
+@keyframes load9243 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -5,7 +5,7 @@ const Paid = require('../model/paid');
 const Product = require('../model/product');
 const Schedule = require('../model/schedule');
 const catchAsync = require('../utils/catchasync');
-const { isAdmin } = require('../middleware')
+const { isAdmin,isLoggedIn,addLoadingVariable } = require('../middleware')
 const moment = require('moment');
 
 
@@ -223,12 +223,12 @@ const endDay = firstDayOfMonth.clone().endOf('month').endOf('week')
 }
 
 //products-admin
-router.get('/product-dashboard', async (req, res) => {
+router.get('/product-dashboard',isLoggedIn, isAdmin,catchAsync(async (req, res) => {
 
     const products = await Product.find({});
     res.render('admindash/product-dashboard', { products });
 
-});
+}));
 
 
 
