@@ -19,34 +19,34 @@ const upload = multer({ storage })
 
 // Profile
 router.get('/profile/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      req.flash('error', 'There is no user found');
-      return res.redirect('/');
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            req.flash('error', 'There is no user found');
+            return res.redirect('/');
+        }
+        const currentUser = req.user;
+        res.render('user/profile', { user, currentUser });
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'An error occurred');
+        res.redirect('/');
     }
-const currentUser = req.user;
-    res.render('user/profile', { user, currentUser });
-  } catch (err) {
-    console.error(err);
-    req.flash('error', 'An error occurred');
-    res.redirect('/');
-  }
 });
 
-router.get('/profile/:id/edit', async(req,res)=>{
-try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      req.flash('error', 'There is no user found');
-      return res.redirect('/');
+router.get('/profile/:id/edit', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            req.flash('error', 'There is no user found');
+            return res.redirect('/');
+        }
+        res.render('user/edit', { user });
+    } catch (err) {
+        console.error(err);
+        req.flash('error', 'An error occurred');
+        res.redirect('/');
     }
-    res.render('user/edit', { user });
-  } catch (err) {
-    console.error(err);
-    req.flash('error', 'An error occurred');
-    res.redirect('/');
-  }
 
 })
 
@@ -54,8 +54,8 @@ try {
 router.put('/profile/:id', upload.array('image'), catchAsync(async (req, res, next) => {
     const { id } = req.params;
 
-    const user = await User.findByIdAndUpdate(id, {...req.body.user});
-const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
+    const user = await User.findByIdAndUpdate(id, { ...req.body.user });
+    const imgs = req.files.map(i => ({ url: i.path, filename: i.filename }));
     user.images.push(...imgs);
     await user.save()
     if (req.body.deleteImages) {
@@ -164,14 +164,14 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
 
 
         const user = await User.findOne({ username });
-if(user.isAdmin == false){
-        user.interactions += 1;
-        await user.save();
-}
-  if (user) {
-      user.isLoggedIn = true; // Set isLoggedIn to true
-      await user.save();
-    }
+        if (user.isAdmin == false) {
+            user.interactions += 1;
+            await user.save();
+        }
+        if (user) {
+            user.isLoggedIn = true; // Set isLoggedIn to true
+            await user.save();
+        }
         req.flash('success', `Welcome back ${username}`);
         res.redirect('/');
     } catch (err) {
@@ -198,7 +198,7 @@ router.get('/auth/facebook', (req, res, next) => {
 router.get('/auth/facebook/callback', passport.authenticate('facebook', { keepSessionInfo: true, failureRedirect: '/login' }), (req, res) => {
 
 
-req.flash('success', 'Welcome to Paulamed Cafe');
+    req.flash('success', 'Welcome to Paulamed Cafe');
     res.redirect('/')
 });
 
@@ -307,7 +307,7 @@ router.post('/reset-password/:id/:token', catchAsync(async (req, res) => {
         req.flash('error', 'It must contain atleast 1 Uppercase 1 number');
         return res.redirect(`/reset-password/${user._id}/${token}`)
     }
-const confirmPassword = req.body['confirm-password'];
+    const confirmPassword = req.body['confirm-password'];
 
     if (password !== confirmPassword) {
         req.flash('error', 'Password do not match');
